@@ -81,9 +81,11 @@ public class BillTypeService {
     JSONObject result = new JSONObject();
 
     String uuid = (String) map.get("uuid");
+    String creater = (String) map.get("creater");
 
     HashMap<String, Object> params = new HashMap<>();
     params.put("uuid", uuid);
+    params.put("creater", creater);
 
     int deleteResult = billTypeMapper.deleteByMap(params);
 

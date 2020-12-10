@@ -1,9 +1,9 @@
 package com.tang.bill.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.tang.bill.mapper.PublicBillTypeMapper;
+import com.tang.bill.mapper.BillMapper;
 import com.tang.bill.mapper.UserMapper;
-import com.tang.bill.pojo.PublicBillType;
+import com.tang.bill.pojo.Bill;
 import com.tang.bill.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 
 @RestController
-public class PublicBillTypeService {
+public class BillService {
 
   @Autowired
-  private PublicBillTypeMapper publicBillTypeMapper;
+  private BillMapper billMapper;
 
   @Autowired
   private UserMapper userMapper;
 
-  @PostMapping("/addPublicBillType")
-  public JSONObject addPublicBillType(@RequestBody Map map) {
+  @PostMapping("/addBill")
+  public JSONObject addBill(@RequestBody Map map) {
     JSONObject result = new JSONObject();
 
-    String name = (String) map.get("name");
-    int nature = (int) map.get("nature");
-    String icon = (String) map.get("icon");
+    String content = (String) map.get("content");
+    double amount = (double) map.get("amount");
+    String type = (String) map.get("type");
     String creater = (String) map.get("creater");
 
     HashMap<String, Object> hashMap = new HashMap<>();
@@ -43,38 +43,28 @@ public class PublicBillTypeService {
     String uuid = UUID.randomUUID().toString().replaceAll("-", "");
     Date date = new Date();
 
-    PublicBillType billType = new PublicBillType();
-    billType.setCreated_date(date);
-    billType.setUuid(uuid);
-    billType.setName(name);
-    billType.setNature(nature);
-    billType.setIcon(icon);
-    billType.setCreater(creater);
+    Bill bill = new Bill();
+    bill.setUuid(uuid);
+    bill.setContent(content);
+    bill.setAmount(amount);
+    bill.setType(type);
+    bill.setCreated_date(date);
+    bill.setCreater(creater);
 
-    int insertResult = publicBillTypeMapper.insert(billType);
+    int insert = billMapper.insert(bill);
 
-    if (insertResult == 1) {
+    if (insert == 1) {
       result.put("status", 200);
     } else {
       result.put("status", 500);
-      result.put("warning", "类型添加失败");
+      result.put("warning", "添加记录失败");
     }
-    return result;
-  }
-
-  @PostMapping("/getAllPublicBillTypeService")
-  public JSONObject getAllPublicBillTypeService() {
-    JSONObject result = new JSONObject();
-
-    List<PublicBillType> publicBillTypes = publicBillTypeMapper.selectByMap(null);
-
-    result.put("publicBillTypes", publicBillTypes);
 
     return result;
   }
 
-  @PostMapping("/deletePublicBillTypeWithUuid")
-  public JSONObject deletePublicBillTypeWithUuid(@RequestBody Map map) {
+  @PostMapping("/deleteBill")
+  public JSONObject deleteBill(@RequestBody Map map) {
     JSONObject result = new JSONObject();
 
     String uuid = (String) map.get("uuid");
@@ -84,9 +74,9 @@ public class PublicBillTypeService {
     params.put("uuid", uuid);
     params.put("creater", creater);
 
-    int deleteResult = publicBillTypeMapper.deleteByMap(params);
+    int delete = billMapper.deleteByMap(params);
 
-    if (deleteResult == 1) {
+    if (delete == 1) {
       result.put("status", 200);
     } else {
       result.put("status", 500);

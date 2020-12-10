@@ -8,7 +8,7 @@ import java.util.Date;
 public class Bill {
   private String uuid;
   private String content;
-  private Double amount;
+  private double amount;
   private String type;
   private String plan;
   private String creater;
