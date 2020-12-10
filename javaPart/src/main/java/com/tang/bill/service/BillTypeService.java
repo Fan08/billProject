@@ -76,6 +76,7 @@ public class BillTypeService {
     return result;
   }
 
+  @PostMapping("/deleteBillTypeWithUuid")
   public JSONObject deleteBillTypeWithUuid(@RequestBody Map map) {
     JSONObject result = new JSONObject();
 

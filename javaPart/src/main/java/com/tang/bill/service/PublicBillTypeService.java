@@ -61,4 +61,36 @@ public class PublicBillTypeService {
     }
     return result;
   }
+
+  @PostMapping("/getAllPublicBillTypeService")
+  public JSONObject getAllPublicBillTypeService() {
+    JSONObject result = new JSONObject();
+
+    List<PublicBillType> publicBillTypes = publicBillTypeMapper.selectByMap(null);
+
+    result.put("publicBillTypes", publicBillTypes);
+
+    return result;
+  }
+
+  @PostMapping("/deletePublicBillTypeWithUuid")
+  public JSONObject deletePublicBillTypeWithUuid(@RequestBody Map map) {
+    JSONObject result = new JSONObject();
+
+    String uuid = (String) map.get("uuid");
+
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("uuid", uuid);
+
+    int deleteResult = publicBillTypeMapper.deleteByMap(params);
+
+    if (deleteResult == 1) {
+      result.put("status", 200);
+    } else {
+      result.put("status", 500);
+      result.put("warning", "删除失败");
+    }
+
+    return result;
+  }
 }

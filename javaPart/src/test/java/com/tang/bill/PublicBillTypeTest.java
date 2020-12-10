@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @SpringBootTest
-public class PublicBillTest {
+public class PublicBillTypeTest {
 
   @Autowired
   private PublicBillTypeMapper publicBillTypeMapper;
