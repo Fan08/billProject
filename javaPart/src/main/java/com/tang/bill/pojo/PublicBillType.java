@@ -2,7 +2,7 @@ package com.tang.bill.pojo;
 
 import java.util.Date;
 
-public class BillType {
+public class PublicBillType {
   private String uuid;
   private String name;
   private int nature;
@@ -12,10 +12,10 @@ public class BillType {
   private String updater;
   private Date updated_date;
 
-  public BillType() {
+  public PublicBillType() {
   }
 
-  public BillType(String uuid, String name, int nature, String icon, String creater, Date created_date, String updater, Date updated_date) {
+  public PublicBillType(String uuid, String name, int nature, String icon, String creater, Date created_date, String updater, Date updated_date) {
     this.uuid = uuid;
     this.name = name;
     this.nature = nature;

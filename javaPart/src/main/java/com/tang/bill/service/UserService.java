@@ -39,11 +39,16 @@ public class UserService {
     newUser.setPhone(phone);
     newUser.setPhone(creater);
 
-    userMapper.insert(newUser);
+    int insert = userMapper.insert(newUser);
 
     JSONObject jsonObject = new JSONObject();
-    jsonObject.put("account", integer);
-    jsonObject.put("status", 200);
+    if (insert == 1) {
+      jsonObject.put("account", integer);
+      jsonObject.put("status", 200);
+    } else {
+      jsonObject.put("status", 500);
+      jsonObject.put("warning", "用户添加失败");
+    }
     return jsonObject;
   }
 
