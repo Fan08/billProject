@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 public class UserService {
@@ -47,5 +45,24 @@ public class UserService {
     jsonObject.put("account", integer);
     jsonObject.put("status", 200);
     return jsonObject;
+  }
+
+  @PostMapping("/getUser")
+  public User getUser(@RequestBody Map map) {
+    String password = (String) map.get("password");
+    String account = (String) map.get("account");
+
+    HashMap<String, Object> hashMap = new HashMap<>();
+    hashMap.put("password", password);
+    hashMap.put("account", account);
+    List<User> users = userMapper.selectByMap(hashMap);
+
+    if (users.size() == 0) {
+      return null;
+    }
+
+    User aimUser = users.get(0);
+    aimUser.setPassword("");
+    return aimUser;
   }
 }
