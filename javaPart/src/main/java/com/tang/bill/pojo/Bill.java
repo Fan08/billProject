@@ -102,4 +102,19 @@ public class Bill {
   public void setUpdated_date(Date updated_date) {
     this.updated_date = updated_date;
   }
+
+  @Override
+  public String toString() {
+    return "Bill{" +
+            "uuid='" + uuid + '\'' +
+            ", content='" + content + '\'' +
+            ", amount=" + amount +
+            ", type='" + type + '\'' +
+            ", plan='" + plan + '\'' +
+            ", creater='" + creater + '\'' +
+            ", created_date=" + created_date +
+            ", updater='" + updater + '\'' +
+            ", updated_date=" + updated_date +
+            '}';
+  }
 }

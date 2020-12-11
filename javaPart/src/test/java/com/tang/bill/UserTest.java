@@ -22,16 +22,14 @@ public class UserTest {
   void testAddUser() {
     int integer = userMapper.selectCount(null) + 1;
     String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-    Date date = new Date();
 
     User newUser = new User();
     newUser.setUuid(uuid);
     newUser.setAccount(Integer.toString(integer));
-    newUser.setCreated_date(date);
 
-    newUser.setPassword("1");
-    newUser.setRole(1);
-    newUser.setPhone("1");
+    newUser.setPassword("2");
+    newUser.setRole(2);
+    newUser.setPhone("2");
 
     int result = userMapper.insert(newUser);
     System.out.println(result);
@@ -47,5 +45,13 @@ public class UserTest {
     SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String sd = sdf.format(new Date(Long.parseLong(String.valueOf(createdDate.getTime()))));
     System.out.println(sd);
+  }
+
+  @Test
+  void testOwnSql() {
+    List<User> users = userMapper.selectUserByOwnMethod("c6825ed3afa9411694b62e61119544ed");
+    for (User user : users) {
+      System.out.println(user.toString());
+    }
   }
 }

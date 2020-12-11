@@ -89,4 +89,18 @@ public class BillType {
   public void setUpdated_date(Date updated_date) {
     this.updated_date = updated_date;
   }
+
+  @Override
+  public String toString() {
+    return "BillType{" +
+            "uuid='" + uuid + '\'' +
+            ", name='" + name + '\'' +
+            ", nature=" + nature +
+            ", icon='" + icon + '\'' +
+            ", creater='" + creater + '\'' +
+            ", created_date=" + created_date +
+            ", updater='" + updater + '\'' +
+            ", updated_date=" + updated_date +
+            '}';
+  }
 }

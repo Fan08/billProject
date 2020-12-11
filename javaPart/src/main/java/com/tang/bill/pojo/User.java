@@ -103,4 +103,19 @@ public class User {
   public void setUpdated_date(Date updated_date) {
     this.updated_date = updated_date;
   }
+
+  @Override
+  public String toString() {
+    return "User{" +
+            "uuid='" + uuid + '\'' +
+            ", account='" + account + '\'' +
+            ", password='" + password + '\'' +
+            ", role=" + role +
+            ", phone='" + phone + '\'' +
+            ", creater='" + creater + '\'' +
+            ", created_date=" + created_date +
+            ", updater='" + updater + '\'' +
+            ", updated_date=" + updated_date +
+            '}';
+  }
 }
