@@ -12,11 +12,12 @@ import { getCookie } from '../../helpers/cookies'
 
 export default class Home extends Component {
     render() {
-      const loginComponent = <Redirect to='/login' />
+      // const loginComponent = <Redirect to='/login' />
       const appComponent = <Redirect to='/app' />
 
       return (
-            getCookie('mspa_user') === null ? loginComponent : appComponent
+          getCookie('mspa_user') === null ? appComponent : appComponent
+          // getCookie('mspa_user') === null ? loginComponent : appComponent
         )
     }
 }

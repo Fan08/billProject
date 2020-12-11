@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import { Layout, Breadcrumb } from 'antd'
 import { getCookie, setCookie } from '../../helpers/cookies'
 import store from '../../store'
 import { Provider } from 'react-redux'
+import { actionCreators as commonAction } from './store'
 
 import SideMenu from './SideMenu'
 import HeaderCustom from './HeaderCustom'
@@ -31,17 +32,18 @@ class App extends Component {
     if (getCookie('mspa_SiderCollapsed') === null) {
       setCookie('mspa_SiderCollapsed', false)
     }
+    commonAction.getAllBillTypes()
   }
 
   render() {
     const { collapsed } = this.state
     // const {location} = this.props
     let name
-    if (!getCookie('mspa_user') || getCookie('mspa_user') === 'undefined') {
-      return <Redirect to='/login' />
-    } else {
-      name = JSON.parse(getCookie('mspa_user')).username
-    }
+    // if (!getCookie('mspa_user') || getCookie('mspa_user') === 'undefined') {
+    //   return <Redirect to='/login' />
+    // } else {
+    //   name = JSON.parse(getCookie('mspa_user')).username
+    // }
 
     return (
       <Layout>
@@ -61,7 +63,7 @@ class App extends Component {
               </Breadcrumb>
               <Content style={{ padding: '0 24px', minHeight: 'calc(100vh - 111px)' }}>
                 <Switch>
-                  <Route exact path={'/app'} component={Index} />
+                  <Route exact path={'/app'} component={ (props) => <Index { ...props }/> } />
                   <Route component={noMatch} />
                 </Switch>
               </Content>
