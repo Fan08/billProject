@@ -85,4 +85,21 @@ public class BillService {
 
     return result;
   }
+
+  @PostMapping("/getBillWithCreater")
+  public JSONObject getBillWithCreater(@RequestBody Map map) {
+    JSONObject result = new JSONObject();
+
+    String creater = (String) map.get("creater");
+
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("creater", creater);
+
+    List<Bill> bills = billMapper.selectByMap(params);
+
+    result.put("status", 200);
+    result.put("bills", bills);
+
+    return result;
+  }
 }

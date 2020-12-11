@@ -1,59 +1,65 @@
-// import { Model } from '../../../dataModule/testBone'
-// import { billTypes } from '../../../dataModule/UrlList'
+import { Model } from '../../../dataModule/testBone'
+import { billTypes, getBillWithCreater } from '../../../dataModule/UrlList'
 import * as constants from './constants'
+import store from '../../../store'
 
-import { Route } from 'react-router-dom'
-import Index from '../../index'
-import React from 'react'
+// import { Route } from 'react-router-dom'
+// import Index from '../../index'
+// import React from 'react'
 import { fromJS } from 'immutable'
+import moment from 'moment'
 
-// const model = new Model()
-
-const router = [
-  {
-    routerDom: <Route key={'/app'} exact path={'/app'} component={ (props) => <Index { ...props }/> } />,
-    link: '/app',
-    title: 'app-title',
-    key: 'app',
-    child: []
-  }, {
-    routerDom: null,
-    link: '',
-    title: 'app2-title',
-    key: 'app2',
-    child: [{
-      routerDom: <Route key={'/app/app-child-test'} exact path={'/app/app-child-test'} component={ (props) => <Index { ...props }/> } />,
-      link: '/app/app-child-test',
-      title: 'app-child-test-title',
-      key: 'app-child-test',
-      child: []
-    }]
-  }
-]
-
-export const dispatchRouters = () => ({
-  type: constants.routers,
-  data: fromJS(router)
-})
+const model = new Model()
 
 export const dispatchBreadcrumbList = (data) => ({
   type: constants.breadcrumbList,
   data: fromJS(data)
 })
 
+export const dispatchUserBill = (data) => ({
+  type: constants.userBill,
+  data: fromJS(data)
+})
+
+export const dispatchBillTypes = (data) => ({
+  type: constants.userBillType,
+  data: fromJS(data)
+})
+
 export const getAllBillTypes = () => {
-  // model.fetch(
-  //   { creater: 'c6825ed3afa9411694b62e61119544ed' },
-  //   billTypes,
-  //   'POST',
-  //   function(response) {
-  //     console.log(response)
-  //   },
-  //   // eslint-disable-next-line handle-callback-err
-  //   function(error) {
-  //     return
-  //   },
-  //   false
-  // )
+  model.fetch(
+    { creater: 'c6825ed3afa9411694b62e61119544ed' },
+    billTypes,
+    'POST',
+    function(response) {
+      const data = response.data.billTypes
+      store.dispatch(dispatchBillTypes(data))
+    },
+    // eslint-disable-next-line handle-callback-err
+    function(error) {
+      return
+    },
+    false
+  )
 }
 
+export const getAllBills = () => {
+  model.fetch(
+    { creater: 'c6825ed3afa9411694b62e61119544ed' },
+    getBillWithCreater,
+    'POST',
+    function(response) {
+      const data = response.data.bills
+      for (const i of data) {
+        i['bill_date'] = moment(i['bill_date']).format('YYYY-MM-DD')
+      }
+      console.log(data)
+      store.dispatch(dispatchUserBill(data))
+    },
+    // eslint-disable-next-line handle-callback-err
+    function(error) {
+      return
+    },
+    false
+  )
+}

@@ -69,7 +69,7 @@ class HeaderCustom extends Component {
         <Header className='header-style header'>
           <img alt='logo' src={logo}/>
           <Link to='/technology-system'>
-            <span className={'header-span'}>325 实验室基础前端框架</span>
+            <span className={'header-span'}>我的记账本</span>
           </Link>
           <span className='date-span'>{this.state.date.toLocaleString()}</span>
           <div className={'user-icon-div'}>

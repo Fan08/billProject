@@ -5,7 +5,7 @@ import { getCookie, setCookie } from '../../helpers/cookies'
 import store from '../../store'
 import { Provider } from 'react-redux'
 import { actionCreators as commonAction } from './store'
-import { flattenArrays } from '../../publicFunction'
+import { flattenArrays, getBreadFromLocation } from '../../publicFunction'
 
 import SideMenu from './SideMenu'
 import HeaderCustom from './HeaderCustom'
@@ -33,22 +33,23 @@ class App extends Component {
     if (getCookie('mspa_SiderCollapsed') === null) {
       setCookie('mspa_SiderCollapsed', false)
     }
-    store.dispatch(commonAction.dispatchRouters())
     commonAction.getAllBillTypes()
+    commonAction.getAllBills()
   }
 
   render() {
     const { collapsed } = this.state
-    // const {location} = this.props
+    const { location } = this.props
     let name
     // if (!getCookie('mspa_user') || getCookie('mspa_user') === 'undefined') {
     //   return <Redirect to='/login' />
     // } else {
     //   name = JSON.parse(getCookie('mspa_user')).username
     // }
-    let routers = store.getState().get('commonReducer').get('routers')
-    routers = flattenArrays(routers.toJS(), 'child')
-    const breadcrumbList = store.getState().get('commonReducer').get('breadcrumbList').toJS()
+
+    let routers = store.getState().get('commonReducer').get('routers').toJS()
+    routers = flattenArrays(routers, 'child')
+    const breadcrumbList = getBreadFromLocation(routers, location.pathname)
 
     return (
       <Layout>
@@ -61,10 +62,10 @@ class App extends Component {
               <Sider width={200} style={{ background: '#fff' }}>
                 <SideMenu />
               </Sider>
-              <Breadcrumb style={{ margin: '3.4rem 2rem 0' }}>
-                { breadcrumbList.map(item => <Breadcrumb.Item key={item}>{item}</Breadcrumb.Item>) }
-              </Breadcrumb>
-              <Content style={{ padding: '0 24px', minHeight: 'calc(100vh - 111px)' }}>
+              <Content style={{ padding: '0 24px', minHeight: 'calc(100vh - 111px)', backgroundColor: 'rgba(0, 0, 0, .1)' }}>
+                <Breadcrumb style={{ margin: '3.4rem 0 0', fontWeight: 700 }}>
+                  { breadcrumbList.map(item => <Breadcrumb.Item key={item}>{item}</Breadcrumb.Item>) }
+                </Breadcrumb>
                 <Switch>
                   {/* <Route exact path={'/app'} component={ (props) => <Index { ...props }/> } /> */}
                   { routers.map(item => item.routerDom) }

@@ -9,3 +9,4 @@
 export const originalUrl = 'http://localhost:8082'
 
 export const billTypes = '/getBillTypesWithCreater'
+export const getBillWithCreater = '/getBillWithCreater'

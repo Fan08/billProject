@@ -18,16 +18,10 @@ class SideMenu extends Component {
     this.getMenu()
   }
 
-  handleClick = (link, myTitle, fatherTitle = '') => {
+  handleClick = (link) => {
     if (link.length !== 0) {
       history.push(link)
     }
-    const breadcrumbs = []
-    if (fatherTitle !== '') {
-      breadcrumbs.push(fatherTitle)
-    }
-    breadcrumbs.push(myTitle)
-    this.props.dispatchBreadcrumbList(breadcrumbs)
   }
 
   getMenu = () => {
@@ -37,12 +31,12 @@ class SideMenu extends Component {
       if (i.child.length !== 0) {
         menu.push(
           <SubMenu key={i.key} title={i.title}>
-            { i.child.map(item => <Menu.Item key={item.key} onClick={() => this.handleClick(item.link, item.title, i.title)}>{item.title}</Menu.Item>) }
+            { i.child.map(item => <Menu.Item key={item.key} onClick={() => this.handleClick(item.link)}>{item.title}</Menu.Item>) }
           </SubMenu>
         )
       } else {
         menu.push(
-          <Menu.Item key={i.key} title={i.title} onClick={() => this.handleClick(i.link, i.title)}>{i.title}</Menu.Item>
+          <Menu.Item key={i.key} title={i.title} onClick={() => this.handleClick(i.link)}>{i.title}</Menu.Item>
         )
       }
     }
@@ -53,7 +47,7 @@ class SideMenu extends Component {
     return (
       <Menu
         mode='inline'
-        style={{ height: 'calc(100% - 3rem)', marginTop: '3rem' }}
+        style={{ height: 'calc(100% - 3rem)', marginTop: '3rem', fontWeight: 1000 }}
       >
         { this.getMenu() }
       </Menu>
