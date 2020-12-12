@@ -6,6 +6,7 @@ import com.tang.bill.mapper.BillMapper;
 import com.tang.bill.mapper.UserMapper;
 import com.tang.bill.pojo.Bill;
 import com.tang.bill.pojo.User;
+import com.tang.bill.util.CommonFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -127,20 +128,11 @@ public class BillService {
   }
 
   private List getBillsWithCreaterAndDate(int year, int month, String creater) {
-    Calendar cal = Calendar.getInstance();
-    int firstDay = cal.getMinimum(Calendar.DATE);
-    cal.set(year, month, firstDay - 1, 23, 59, 59);
-    Date firstDate = cal.getTime();
-
-    Calendar cal2 = Calendar.getInstance();
-    cal2.set(Calendar.YEAR, year);
-    cal2.set(Calendar.MONTH, month);
-    int lastDay = cal2.getActualMaximum(Calendar.DAY_OF_MONTH);
-    cal2.set(year, month, lastDay, 23, 59, 59);
-    Date lastDate = cal2.getTime();
+    CommonFunction commonFunction = new CommonFunction();
+    Date[] dates = commonFunction.generateStartDateAndEndDateOfMonth(year, month);
 
     QueryWrapper wrapper = new QueryWrapper();
-    wrapper.between("bill_date", firstDate, lastDate);
+    wrapper.between("bill_date", dates[0], dates[1]);
     wrapper.like("creater", creater);
     wrapper.orderByAsc("bill_date");
     List<Map> bills = billMapper.selectBillWithWrapper(wrapper);

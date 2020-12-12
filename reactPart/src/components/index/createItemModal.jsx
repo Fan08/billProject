@@ -88,6 +88,7 @@ class CreateItemModal extends Component {
     return (
       <Modal
         title='创建新的记账记录'
+        width='50%'
         okText={'确认'}
         cancelText={'取消'}
         visible={visible}

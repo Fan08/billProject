@@ -22,17 +22,16 @@ class SingleItem extends Component {
       function(response) {
         searchWithMonth(selectedMonth)
       },
-      function(response) {
-        return
-      }
+      function(response) {}
     )
   }
 
   render() {
-    const { icon, content, amount, created_date, uuid } = this.props
+    const { icon, content, amount, created_date, uuid, nature } = this.props
+    const itemClassName = nature === 1 ? 'single-item' : 'single-item income-item'
 
     return (
-      <div className='single-item'>
+      <div className={itemClassName}>
         <div className='left-block'>
           <img src={icon} alt={''}/>
           <span>{content}</span>
@@ -43,7 +42,7 @@ class SingleItem extends Component {
         </div>
         <div className='right-block'>
           {/* <Icon type='edit' style={{ cursor: 'pointer' }}/>*/}
-          <Icon type='delete' style={{ marginLeft: 20, color: 'red', cursor: 'pointer' }} onClick={() => this.deleteBill(uuid)}/>
+          <Icon type='delete' theme={'filled'} style={{ marginLeft: 20, color: 'red', cursor: 'pointer', fontSize: 20 }} onClick={() => this.deleteBill(uuid)}/>
         </div>
       </div>
     )

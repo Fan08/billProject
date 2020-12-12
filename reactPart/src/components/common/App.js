@@ -63,7 +63,7 @@ class App extends Component {
               <Sider width={200} style={{ background: '#fff' }}>
                 <SideMenu />
               </Sider>
-              <Content style={{ padding: '0 24px', minHeight: 'calc(100vh - 111px)', backgroundColor: 'rgba(0, 0, 0, .1)' }}>
+              <Content style={{ padding: '0 24px', minHeight: 'calc(100vh)', backgroundColor: 'rgba(0, 0, 0, .1)' }}>
                 <Breadcrumb style={{ margin: '3.4rem 0 0', fontWeight: 700 }}>
                   { breadcrumbList.map(item => <Breadcrumb.Item key={item}>{item}</Breadcrumb.Item>) }
                 </Breadcrumb>

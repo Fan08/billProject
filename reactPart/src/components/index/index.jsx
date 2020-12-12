@@ -9,12 +9,15 @@ import 'moment/locale/zh-cn'
 import { dispatchUserBill } from '../common/store/actionCreaters'
 import { getBillWithCreaterAndMonthUrl } from '../../dataModule/UrlList'
 import { Model } from '../../dataModule/testBone'
+import store from '../../store'
+import SingleItem from './singleItem'
+
+import CreateBillType from './createBillType'
 import CreateItemModal from './createItemModal'
 import testIcon from '../../style/img/eatingIcon.png'
-import SingleItem from './singleItem'
+
 import '../../style/public.less'
 import './style.less'
-import store from '../../store'
 
 moment.locale('zh-cn')
 
@@ -30,7 +33,8 @@ class Index extends Component {
     const month = now.getMonth() + 1
     this.state = {
       selectedMonth: now.getFullYear() + '/' + month,
-      createModalVisible: false
+      createModalVisible: false,
+      addBillTypeVisible: false
     }
   }
 
@@ -38,7 +42,6 @@ class Index extends Component {
   }
 
   searchWithMonth = (dateString) => {
-    console.log('selectedMonth', dateString)
     if (dateString.length === 0) return
     const date = dateString
     const creater = this.props.userUuid
@@ -71,6 +74,18 @@ class Index extends Component {
     })
   }
 
+  showAddBillType = () => {
+    this.setState({
+      addBillTypeVisible: true
+    })
+  }
+
+  cancelAddBillType = () => {
+    this.setState({
+      addBillTypeVisible: false
+    })
+  }
+
   onChange = (date, dateString) => {
     this.setState({ 'selectedMonth': dateString })
     this.searchWithMonth(dateString)
@@ -100,6 +115,7 @@ class Index extends Component {
           </div>
         </div>
 
+        <div className='addBillTypeButton' onClick={this.showAddBillType}>创建新的账单类型</div>
         <div className='addButton' onClick={this.showModal}>创建新的记账记录</div>
          <div>
            { userBill.map((item) => <SingleItem
@@ -107,6 +123,7 @@ class Index extends Component {
              searchWithMonth={this.searchWithMonth}
              key={item.uuid} uuid={item.uuid}
              icon={testIcon}
+             nature={item.nature}
              content={item.content}
              amount={item.amount}
              created_date={item.bill_date}
@@ -117,6 +134,10 @@ class Index extends Component {
           searchWithMonth={this.searchWithMonth}
           visible={this.state.createModalVisible}
           handleCancel={this.handleCancel}
+        />
+        <CreateBillType
+          visible={this.state.addBillTypeVisible}
+          handleCancel={this.cancelAddBillType}
         />
       </div>
     )
