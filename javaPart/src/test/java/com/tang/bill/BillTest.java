@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 public class BillTest {
@@ -52,6 +53,14 @@ public class BillTest {
     List<Bill> bills = billMapper.selectBillWithWrapper(wrapper);
     for (Bill bill : bills) {
       System.out.println(bill.toString());
+    }
+  }
+
+  @Test
+  void selectTestWithSqlInXml() {
+    List<Map> maps = billMapper.selectTestWithSqlInXml();
+    for (Map map : maps) {
+      System.out.println(map.toString());
     }
   }
 }

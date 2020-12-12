@@ -16,4 +16,6 @@ public interface BillMapper extends BaseMapper<Bill> {
   // 自定义 sql 语句
   @Select("select single_bill.*, bill_type.nature from single_bill left join bill_type on bill_type.uuid=single_bill.type ${ew.customSqlSegment}")
   List<Map> selectBillWithWrapper(@Param(Constants.WRAPPER) Wrapper<Map> billWrapper);
+
+  List<Map> selectTestWithSqlInXml();
 }
