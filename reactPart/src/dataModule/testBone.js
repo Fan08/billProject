@@ -11,7 +11,7 @@ axios.interceptors.request.use(config => {
   return config
 })
 
-function fetch(me, params = null, methods = 'post', thenFun = null, catchFun = null, whetherTest = true) {
+function fetch(me, params = null, methods = 'post', thenFun = null, catchFun = null, whetherTest = false) {
   /** params 为参数，以键值对形式传递
    *  methods 为请求方式，默认 post
    *  thenFun 为正确获取 response 后的回调函数

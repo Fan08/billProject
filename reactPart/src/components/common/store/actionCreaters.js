@@ -26,9 +26,9 @@ export const dispatchBillTypes = (data) => ({
   data: fromJS(data)
 })
 
-export const getAllBillTypes = () => {
+export const getAllBillTypes = (userUuid) => {
   model.fetch(
-    { creater: 'c6825ed3afa9411694b62e61119544ed' },
+    { creater: userUuid },
     billTypes,
     'POST',
     function(response) {
@@ -38,14 +38,13 @@ export const getAllBillTypes = () => {
     // eslint-disable-next-line handle-callback-err
     function(error) {
       return
-    },
-    false
+    }
   )
 }
 
-export const getAllBills = () => {
+export const getAllBills = (userUuid) => {
   model.fetch(
-    { creater: 'c6825ed3afa9411694b62e61119544ed' },
+    { creater: userUuid },
     getBillWithCreater,
     'POST',
     function(response) {
@@ -53,13 +52,11 @@ export const getAllBills = () => {
       for (const i of data) {
         i['bill_date'] = moment(i['bill_date']).format('YYYY-MM-DD')
       }
-      console.log(data)
       store.dispatch(dispatchUserBill(data))
     },
     // eslint-disable-next-line handle-callback-err
     function(error) {
       return
-    },
-    false
+    }
   )
 }

@@ -10,3 +10,6 @@ export const originalUrl = 'http://localhost:8082'
 
 export const billTypes = '/getBillTypesWithCreater'
 export const getBillWithCreater = '/getBillWithCreater'
+export const addBill = '/addBill'
+export const deleteBill = '/deleteBill'
+export const getBillWithCreaterAndMonthUrl = '/getBillWithCreaterAndMonth'

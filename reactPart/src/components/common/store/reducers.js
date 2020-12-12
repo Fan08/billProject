@@ -7,6 +7,7 @@ import * as constants from './constants'
 import BillType from '../../views/management/billType'
 
 const defaultState = fromJS({
+  userUuid: 'c6825ed3afa9411694b62e61119544ed',
   routersReady: false,
   userBill: [],
   userBillType: [],

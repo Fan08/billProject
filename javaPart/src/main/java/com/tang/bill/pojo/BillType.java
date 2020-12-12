@@ -7,7 +7,7 @@ public class BillType {
   private String name;
   private int nature;
   private String icon;
-  private String creater;
+  private String type_creater;
   private Date created_date;
   private String updater;
   private Date updated_date;
@@ -15,15 +15,29 @@ public class BillType {
   public BillType() {
   }
 
-  public BillType(String uuid, String name, int nature, String icon, String creater, Date created_date, String updater, Date updated_date) {
+  public BillType(String uuid, String name, int nature, String icon, String type_creater, Date created_date, String updater, Date updated_date) {
     this.uuid = uuid;
     this.name = name;
     this.nature = nature;
     this.icon = icon;
-    this.creater = creater;
+    this.type_creater = type_creater;
     this.created_date = created_date;
     this.updater = updater;
     this.updated_date = updated_date;
+  }
+
+  @Override
+  public String toString() {
+    return "BillType{" +
+            "uuid='" + uuid + '\'' +
+            ", name='" + name + '\'' +
+            ", nature=" + nature +
+            ", icon='" + icon + '\'' +
+            ", type_creater='" + type_creater + '\'' +
+            ", created_date=" + created_date +
+            ", updater='" + updater + '\'' +
+            ", updated_date=" + updated_date +
+            '}';
   }
 
   public String getUuid() {
@@ -58,12 +72,12 @@ public class BillType {
     this.icon = icon;
   }
 
-  public String getCreater() {
-    return creater;
+  public String getType_creater() {
+    return type_creater;
   }
 
-  public void setCreater(String creater) {
-    this.creater = creater;
+  public void setType_creater(String type_creater) {
+    this.type_creater = type_creater;
   }
 
   public Date getCreated_date() {
@@ -88,19 +102,5 @@ public class BillType {
 
   public void setUpdated_date(Date updated_date) {
     this.updated_date = updated_date;
-  }
-
-  @Override
-  public String toString() {
-    return "BillType{" +
-            "uuid='" + uuid + '\'' +
-            ", name='" + name + '\'' +
-            ", nature=" + nature +
-            ", icon='" + icon + '\'' +
-            ", creater='" + creater + '\'' +
-            ", created_date=" + created_date +
-            ", updater='" + updater + '\'' +
-            ", updated_date=" + updated_date +
-            '}';
   }
 }

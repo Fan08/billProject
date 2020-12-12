@@ -33,8 +33,9 @@ class App extends Component {
     if (getCookie('mspa_SiderCollapsed') === null) {
       setCookie('mspa_SiderCollapsed', false)
     }
-    commonAction.getAllBillTypes()
-    commonAction.getAllBills()
+    const userUuid = store.getState().get('commonReducer').get('userUuid')
+    commonAction.getAllBillTypes(userUuid)
+    commonAction.getAllBills(userUuid)
   }
 
   render() {

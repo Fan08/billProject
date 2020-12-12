@@ -15,11 +15,12 @@ public class Bill {
   private Date created_date;
   private String updater;
   private Date updated_date;
+  private Date bill_date;
 
   public Bill() {
   }
 
-  public Bill(String uuid, String content, Double amount, String type, String plan, String creater, Date created_date, String updater, Date updated_date) {
+  public Bill(String uuid, String content, double amount, String type, String plan, String creater, Date created_date, String updater, Date updated_date, Date bill_date) {
     this.uuid = uuid;
     this.content = content;
     this.amount = amount;
@@ -29,6 +30,7 @@ public class Bill {
     this.created_date = created_date;
     this.updater = updater;
     this.updated_date = updated_date;
+    this.bill_date = bill_date;
   }
 
   public String getUuid() {
@@ -47,11 +49,11 @@ public class Bill {
     this.content = content;
   }
 
-  public Double getAmount() {
+  public double getAmount() {
     return amount;
   }
 
-  public void setAmount(Double amount) {
+  public void setAmount(double amount) {
     this.amount = amount;
   }
 
@@ -103,18 +105,11 @@ public class Bill {
     this.updated_date = updated_date;
   }
 
-  @Override
-  public String toString() {
-    return "Bill{" +
-            "uuid='" + uuid + '\'' +
-            ", content='" + content + '\'' +
-            ", amount=" + amount +
-            ", type='" + type + '\'' +
-            ", plan='" + plan + '\'' +
-            ", creater='" + creater + '\'' +
-            ", created_date=" + created_date +
-            ", updater='" + updater + '\'' +
-            ", updated_date=" + updated_date +
-            '}';
+  public Date getBill_date() {
+    return bill_date;
+  }
+
+  public void setBill_date(Date bill_date) {
+    this.bill_date = bill_date;
   }
 }

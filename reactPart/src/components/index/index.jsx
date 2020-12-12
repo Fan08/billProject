@@ -6,30 +6,57 @@ import zh_CN from 'antd/es/locale-provider/zh_CN'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 
-// import { Model } from '../../dataModule/testBone'
+import { dispatchUserBill } from '../common/store/actionCreaters'
+import { getBillWithCreaterAndMonthUrl } from '../../dataModule/UrlList'
+import { Model } from '../../dataModule/testBone'
 import CreateItemModal from './createItemModal'
 import testIcon from '../../style/img/eatingIcon.png'
 import SingleItem from './singleItem'
 import '../../style/public.less'
 import './style.less'
+import store from '../../store'
 
 moment.locale('zh-cn')
 
 const monthFormat = 'YYYY/MM'
 
 const { MonthPicker } = DatePicker
+const model = new Model()
 
 class Index extends Component {
   constructor(props) {
     super(props)
     const now = new Date()
+    const month = now.getMonth() + 1
     this.state = {
-      selectedMonth: now.getFullYear() + '/' + now.getMonth(),
+      selectedMonth: now.getFullYear() + '/' + month,
       createModalVisible: false
     }
   }
 
   componentDidMount() {
+  }
+
+  searchWithMonth = (dateString) => {
+    console.log('selectedMonth', dateString)
+    if (dateString.length === 0) return
+    const date = dateString
+    const creater = this.props.userUuid
+    model.fetch(
+      { date, creater },
+      getBillWithCreaterAndMonthUrl,
+      'post',
+      function(res) {
+        const data = res.data.bills
+        for (const i of data) {
+          i['bill_date'] = moment(i['bill_date']).format('YYYY-MM-DD')
+        }
+        store.dispatch(dispatchUserBill(data))
+      },
+      function(res) {
+        return
+      }
+    )
   }
 
   showModal = () => {
@@ -46,6 +73,7 @@ class Index extends Component {
 
   onChange = (date, dateString) => {
     this.setState({ 'selectedMonth': dateString })
+    this.searchWithMonth(dateString)
   }
 
   render() {
@@ -74,9 +102,19 @@ class Index extends Component {
 
         <div className='addButton' onClick={this.showModal}>创建新的记账记录</div>
          <div>
-           { userBill.map((item, index) => <SingleItem key={index} icon={testIcon} content={item.content} amount={item.amount} created_date={item.bill_date}/>) }
+           { userBill.map((item) => <SingleItem
+             selectedMonth={selectedMonth}
+             searchWithMonth={this.searchWithMonth}
+             key={item.uuid} uuid={item.uuid}
+             icon={testIcon}
+             content={item.content}
+             amount={item.amount}
+             created_date={item.bill_date}
+           />) }
          </div>
         <CreateItemModal
+          selectedMonth={selectedMonth}
+          searchWithMonth={this.searchWithMonth}
           visible={this.state.createModalVisible}
           handleCancel={this.handleCancel}
         />
@@ -87,7 +125,8 @@ class Index extends Component {
 
 const mapStateToProps = (state) => {
     return {
-      userBill: state.get('commonReducer').get('userBill').toJS()
+      userBill: state.get('commonReducer').get('userBill').toJS(),
+      userUuid: state.get('commonReducer').get('userUuid')
     }
 }
 

@@ -49,7 +49,7 @@ public class BillTypeService {
     billType.setName(name);
     billType.setNature(nature);
     billType.setIcon(icon);
-    billType.setCreater(creater);
+    billType.setType_creater(creater);
 
     int insertResult = billTypeMapper.insert(billType);
 
@@ -68,7 +68,7 @@ public class BillTypeService {
     String creater = (String) map.get("creater");
 
     HashMap<String, Object> hashMap = new HashMap<>();
-    hashMap.put("creater", creater);
+    hashMap.put("type_creater", creater);
     List<BillType> billTypes = billTypeMapper.selectByMap(hashMap);
 
     JSONObject result = new JSONObject();
