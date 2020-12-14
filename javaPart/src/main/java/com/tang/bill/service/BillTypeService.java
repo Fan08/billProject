@@ -1,6 +1,8 @@
 package com.tang.bill.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.tang.bill.mapper.BillMapper;
 import com.tang.bill.mapper.BillTypeMapper;
 import com.tang.bill.mapper.UserMapper;
 import com.tang.bill.pojo.BillType;
@@ -14,6 +16,9 @@ import java.util.*;
 
 @RestController
 public class BillTypeService {
+
+  @Autowired
+  private BillMapper billMapper;
 
   @Autowired
   private BillTypeMapper billTypeMapper;
@@ -85,15 +90,22 @@ public class BillTypeService {
 
     HashMap<String, Object> params = new HashMap<>();
     params.put("uuid", uuid);
-    params.put("creater", creater);
+    params.put("type_creater", creater);
 
-    int deleteResult = billTypeMapper.deleteByMap(params);
-
-    if (deleteResult == 1) {
-      result.put("status", 200);
+    QueryWrapper wrapper = new QueryWrapper();
+    wrapper.like("type", uuid);
+    List bills = billMapper.selectBillWithWrapper(wrapper);
+    if (bills.size() == 0) {
+      int deleteResult = billTypeMapper.deleteByMap(params);
+      if (deleteResult == 1) {
+        result.put("status", 200);
+      } else {
+        result.put("status", 500);
+        result.put("warning", "删除失败");
+      }
     } else {
       result.put("status", 500);
-      result.put("warning", "删除失败");
+      result.put("warning", "删除失败，该类型正在使用，不可删除");
     }
 
     return result;

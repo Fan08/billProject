@@ -109,6 +109,7 @@
 .income-item {
   background-color: #00BFFF;
   border: none;
+  padding-left: 4px;
   span {
     font-size: 1rem;
     font-weight: 700;
@@ -133,6 +134,8 @@
 
 .create-bill-type {
   .single-input-item {
+    display: flex;
+    align-items: center;
     .title {
       height: 3rem;
       font-weight: 700;
@@ -140,5 +143,15 @@
       line-height: 3rem;
       margin-left: 10%;
     }
+    img {
+      width: 30px;
+      height: 30px;
+      margin-left: 30px;
+    }
   }
+}
+
+.upload-bill-type-icon {
+  width: ~'calc(50% - 60px)';
+  display: inline-block;
 }

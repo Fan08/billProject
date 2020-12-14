@@ -9,6 +9,9 @@
 export const originalUrl = 'http://localhost:8082'
 
 export const billTypes = '/getBillTypesWithCreater'
+export const addBillTypeUrl = '/addBillType'
+export const deleteBillTypeWithUuidUrl = '/deleteBillTypeWithUuid'
+
 export const getBillWithCreater = '/getBillWithCreater'
 export const addBill = '/addBill'
 export const deleteBill = '/deleteBill'

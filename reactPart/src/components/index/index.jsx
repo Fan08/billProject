@@ -14,7 +14,6 @@ import SingleItem from './singleItem'
 
 import CreateBillType from './createBillType'
 import CreateItemModal from './createItemModal'
-import testIcon from '../../style/img/eatingIcon.png'
 
 import '../../style/public.less'
 import './style.less'
@@ -118,16 +117,13 @@ class Index extends Component {
         <div className='addBillTypeButton' onClick={this.showAddBillType}>创建新的账单类型</div>
         <div className='addButton' onClick={this.showModal}>创建新的记账记录</div>
          <div>
-           { userBill.map((item) => <SingleItem
-             selectedMonth={selectedMonth}
-             searchWithMonth={this.searchWithMonth}
-             key={item.uuid} uuid={item.uuid}
-             icon={testIcon}
-             nature={item.nature}
-             content={item.content}
-             amount={item.amount}
-             created_date={item.bill_date}
-           />) }
+           { userBill.map((item) =>
+             <SingleItem
+               item={item}
+               selectedMonth={selectedMonth}
+               searchWithMonth={this.searchWithMonth}
+               key={item.uuid}
+             />) }
          </div>
         <CreateItemModal
           selectedMonth={selectedMonth}

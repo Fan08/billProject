@@ -11,12 +11,13 @@ const defaultState = fromJS({
   routersReady: false,
   userBill: [],
   userBillType: [],
+  // link key path 三个值需保持一致
   routers: [
     {
       routerDom: <Route key={'/app'} exact path={'/app'} component={ (props) => <Index { ...props }/> } />,
       link: '/app',
       title: '账单记录',
-      key: 'app',
+      key: '/app',
       child: []
     }, {
       routerDom: null,
@@ -24,10 +25,10 @@ const defaultState = fromJS({
       title: '信息管理',
       key: 'app2',
       child: [{
-        routerDom: <Route key={'/app/type_management'} exact path={'/app/type_management'} component={ (props) => <BillType { ...props }/> } />,
-        link: '/app/type_management',
-        title: '支出类型管理',
-        key: '支出类型管理',
+        routerDom: <Route key={'/app/bill_type_manage'} exact path={'/app/bill_type_manage'} component={ (props) => <BillType { ...props }/> } />,
+        link: '/app/bill_type_manage',
+        title: '账单类型管理',
+        key: '/app/bill_type_manage',
         child: []
       }]
     }

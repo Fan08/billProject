@@ -11,16 +11,41 @@ const { SubMenu } = Menu
 
 class SideMenu extends Component {
   state = {
-    current: 'mail'
+    current: 'mail',
+    selectedKeys: [],
+    fatherKey: ''
   };
 
   componentDidMount() {
+    this.setSelectedKeys()
     this.getMenu()
+  }
+
+  setSelectedKeys = () => {
+    const { routers } = this.props
+    const locationUrl = window.location.pathname
+    let fatherKey = ''
+    for (const i of routers) {
+      if (i.key === locationUrl) {
+        break
+      } else if (i.child.length !== 0) {
+        for (const x of i.child) {
+          if (x.key === locationUrl) fatherKey = i.key
+          break
+        }
+      }
+      if (fatherKey !== '') break
+    }
+    this.setState({
+      selectedKeys: [locationUrl],
+      fatherKey
+    })
   }
 
   handleClick = (link) => {
     if (link.length !== 0) {
       history.push(link)
+      this.setSelectedKeys()
     }
   }
 
@@ -30,7 +55,7 @@ class SideMenu extends Component {
     for (const i of routers) {
       if (i.child.length !== 0) {
         menu.push(
-          <SubMenu key={i.key} title={i.title}>
+          <SubMenu key={i.key} title={i.title} onTitleClick={() => { this.setState({ fatherKey: i.key }) }}>
             { i.child.map(item => <Menu.Item key={item.key} onClick={() => this.handleClick(item.link)}>{item.title}</Menu.Item>) }
           </SubMenu>
         )
@@ -44,10 +69,13 @@ class SideMenu extends Component {
   };
 
   render() {
+    const { selectedKeys, fatherKey } = this.state
     return (
       <Menu
         mode='inline'
-        style={{ height: 'calc(100% - 3rem)', marginTop: '3rem', fontWeight: 1000 }}
+        style={{ height: 'calc(100% - 3rem)', marginTop: '3rem', fontWeight: 1000, position: 'fixed', width: 200 }}
+        selectedKeys={selectedKeys}
+        openKeys={[fatherKey]}
       >
         { this.getMenu() }
       </Menu>

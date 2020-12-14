@@ -27,22 +27,22 @@ class SingleItem extends Component {
   }
 
   render() {
-    const { icon, content, amount, created_date, uuid, nature } = this.props
-    const itemClassName = nature === 1 ? 'single-item' : 'single-item income-item'
+    const { item } = this.props
+    const itemClassName = item.nature === 1 ? 'single-item' : 'single-item income-item'
 
     return (
       <div className={itemClassName}>
         <div className='left-block'>
-          <img src={icon} alt={''}/>
-          <span>{content}</span>
+          <img src={item.icon} alt={''}/>
+          <span>{item.name}：</span>
+          <span>{item.content}</span>
         </div>
         <div className='center-block'>
-          <span>{created_date}</span>
-          <span style={{ marginLeft: 10 }}>{amount} 元</span>
+          <span>{item.bill_date}</span>
+          <span style={{ marginLeft: 10 }}>{item.amount} 元</span>
         </div>
         <div className='right-block'>
-          {/* <Icon type='edit' style={{ cursor: 'pointer' }}/>*/}
-          <Icon type='delete' theme={'filled'} style={{ marginLeft: 20, color: 'red', cursor: 'pointer', fontSize: 20 }} onClick={() => this.deleteBill(uuid)}/>
+          <Icon type='delete' theme={'filled'} style={{ marginLeft: 20, color: 'red', cursor: 'pointer', fontSize: 20 }} onClick={() => this.deleteBill(item.uuid)}/>
         </div>
       </div>
     )
