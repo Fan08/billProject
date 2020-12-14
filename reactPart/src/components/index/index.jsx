@@ -6,7 +6,7 @@ import zh_CN from 'antd/es/locale-provider/zh_CN'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 
-import { dispatchUserBill } from '../common/store/actionCreaters'
+import { dispatchTotalIncome, dispatchTotalPayout, dispatchUserBill } from '../common/store/actionCreaters'
 import { getBillWithCreaterAndMonthUrl } from '../../dataModule/UrlList'
 import { Model } from '../../dataModule/testBone'
 import store from '../../store'
@@ -50,9 +50,16 @@ class Index extends Component {
       'post',
       function(res) {
         const data = res.data.bills
+        let payout = 0
+        let income = 0
         for (const i of data) {
           i['bill_date'] = moment(i['bill_date']).format('YYYY-MM-DD')
+          if (i.nature === 1) payout += i.amount
+          else income += i.amount
         }
+
+        store.dispatch(dispatchTotalIncome(income))
+        store.dispatch(dispatchTotalPayout(payout))
         store.dispatch(dispatchUserBill(data))
       },
       function(res) {
@@ -92,7 +99,8 @@ class Index extends Component {
 
   render() {
     const { selectedMonth } = this.state
-    const { userBill } = this.props
+    const { userBill, totalPayout, totalIncome } = this.props
+
     return (
       <div className='public-content-style' style={{ paddingTop: 20 }}>
         <div className='title-block'>
@@ -108,22 +116,23 @@ class Index extends Component {
           </div>
           <div className='total-pay'>
             <span>收入：</span>
-            <span>10000</span>
+            <span>{totalIncome} 元</span>
             <span>支出：</span>
-            <span>2000</span>
+            <span>{totalPayout} 元</span>
           </div>
         </div>
 
         <div className='addBillTypeButton' onClick={this.showAddBillType}>创建新的账单类型</div>
         <div className='addButton' onClick={this.showModal}>创建新的记账记录</div>
          <div>
-           { userBill.map((item) =>
-             <SingleItem
+           { userBill.map((item) => {
+             return <SingleItem
                item={item}
                selectedMonth={selectedMonth}
                searchWithMonth={this.searchWithMonth}
                key={item.uuid}
-             />) }
+             />
+           }) }
          </div>
         <CreateItemModal
           selectedMonth={selectedMonth}
@@ -143,6 +152,8 @@ class Index extends Component {
 const mapStateToProps = (state) => {
     return {
       userBill: state.get('commonReducer').get('userBill').toJS(),
+      totalIncome: state.get('commonReducer').get('totalIncome'),
+      totalPayout: state.get('commonReducer').get('totalPayout'),
       userUuid: state.get('commonReducer').get('userUuid')
     }
 }

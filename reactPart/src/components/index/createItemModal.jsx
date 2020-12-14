@@ -110,7 +110,10 @@ class CreateItemModal extends Component {
         <div className={'label-span'}>
           <span className={'span'}>账单类型：</span>
           <Select style={{ width: '50%' }} onChange={this.billTypeChange} value={billType} allowClear>
-            { userBillType.map((item, index) => <Option value={item.uuid} key={index}>{item.name}</Option>) }
+            { userBillType.map((item, index) => {
+              const nature = item.nature === 1 ? '支出' : '收入'
+              return <Option value={item.uuid} key={index}>{nature}：{item.name}</Option>
+            }) }
           </Select>
         </div>
         <div className={'label-span'}>

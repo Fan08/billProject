@@ -7,6 +7,8 @@ import * as constants from './constants'
 import BillType from '../../views/management/billType'
 
 const defaultState = fromJS({
+  totalIncome: 0,
+  totalPayout: 0,
   userUuid: 'c6825ed3afa9411694b62e61119544ed',
   routersReady: false,
   userBill: [],
@@ -43,6 +45,10 @@ export default (state = defaultState, action) => {
       return state.set('routers', action.data)
     case constants.userBill:
       return state.set('userBill', action.data)
+    case constants.totalIncome:
+      return state.set('totalIncome', action.data)
+    case constants.totalPayout:
+      return state.set('totalPayout', action.data)
     default:
       return state
   }

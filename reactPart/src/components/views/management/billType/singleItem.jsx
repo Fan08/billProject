@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon } from 'antd'
+import { Icon, message } from 'antd'
 import { connect } from 'react-redux'
 
 // import testIcon from '../../style/img/eatingIcon.png'
@@ -21,6 +21,11 @@ class SingleItem extends Component {
       deleteBillTypeWithUuidUrl,
       'post',
       function(response) {
+        if (response.data.status === 500) {
+          message.error(response.data.warning)
+          return
+        }
+        message.success('删除成功！')
         getAllBillTypes(userUuid)
       },
       function(response) {}

@@ -11,6 +11,16 @@ import moment from 'moment'
 
 const model = new Model()
 
+export const dispatchTotalIncome = (data) => ({
+  type: constants.totalIncome,
+  data: fromJS(data)
+})
+
+export const dispatchTotalPayout = (data) => ({
+  type: constants.totalPayout,
+  data: fromJS(data)
+})
+
 export const dispatchBreadcrumbList = (data) => ({
   type: constants.breadcrumbList,
   data: fromJS(data)
@@ -49,9 +59,15 @@ export const getAllBills = (userUuid) => {
     'POST',
     function(response) {
       const data = response.data.bills
+      let payout = 0
+      let income = 0
       for (const i of data) {
         i['bill_date'] = moment(i['bill_date']).format('YYYY-MM-DD')
+        if (i.nature === 1) payout += i.amount
+        else income += i.amount
       }
+      store.dispatch(dispatchTotalIncome(income))
+      store.dispatch(dispatchTotalPayout(payout))
       store.dispatch(dispatchUserBill(data))
     },
     // eslint-disable-next-line handle-callback-err
