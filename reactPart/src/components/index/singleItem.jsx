@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon } from 'antd'
+import { Icon, Popconfirm } from 'antd'
 import { connect } from 'react-redux'
 
 // import testIcon from '../../style/img/eatingIcon.png'
@@ -26,6 +26,10 @@ class SingleItem extends Component {
     )
   }
 
+  confirm = (uuid) => {
+    this.deleteBill(uuid)
+  }
+
   render() {
     const { item } = this.props
     const itemClassName = item.nature === 1 ? 'single-item' : 'single-item income-item'
@@ -42,7 +46,19 @@ class SingleItem extends Component {
           <span style={{ marginLeft: 10 }}>{item.amount} 元</span>
         </div>
         <div className='right-block'>
-          <Icon type='delete' theme={'filled'} style={{ marginLeft: 20, color: 'red', cursor: 'pointer', fontSize: 20 }} onClick={() => this.deleteBill(item.uuid)}/>
+          <Popconfirm
+            style={{ backgroundColor: '#000' }}
+            title='确定要删除该记录？'
+            onConfirm={() => this.confirm(item.uuid)}
+            okText='Yes'
+            cancelText='No'
+          >
+            <Icon
+              type='delete'
+              theme={'filled'}
+              style={{ marginLeft: 20, color: 'red', cursor: 'pointer', fontSize: 20 }}
+            />
+          </Popconfirm>
         </div>
       </div>
     )

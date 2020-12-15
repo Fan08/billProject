@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Input, InputNumber, Select, DatePicker, message } from 'antd'
+import { Modal, Input, InputNumber, DatePicker, message } from 'antd'
 import zh_CN from 'antd/es/locale-provider/zh_CN'
 // import moment from 'moment'
 import 'moment/locale/zh-cn'
@@ -12,7 +12,7 @@ import { Model } from '../../dataModule/testBone'
 
 const model = new Model()
 
-const { Option } = Select
+// const { Option } = Select
 const monthFormat = 'YYYY/MM/DD'
 
 class CreateItemModal extends Component {
@@ -22,7 +22,8 @@ class CreateItemModal extends Component {
       selectedDate: '',
       amount: null,
       content: null,
-      billType: null
+      billType: null,
+      selectedTitle: 1
     }
   }
 
@@ -81,9 +82,21 @@ class CreateItemModal extends Component {
     this.setState({ selectedDate: dateString })
   }
 
+  // animationControl = () => {
+  //   // const animationStyle = { animation: 'fadeIn 1s' }
+  //   const dom = document.querySelector('.show-needed-bill-types')
+  //   dom.style.animation = 'fadeIn 1s'
+  // }
+
   render() {
     const { visible, handleCancel, userBillType } = this.props
-    const { selectedDate, billType, amount, content } = this.state
+    const { selectedDate, amount, content, selectedTitle, billType } = this.state
+    const neededBillType = []
+    userBillType.forEach((item) => {
+      if (item.nature === selectedTitle) {
+        neededBillType.push(item)
+      }
+    })
 
     return (
       <Modal
@@ -99,6 +112,29 @@ class CreateItemModal extends Component {
         }}
         className={'create-item-modal'}
       >
+        <div className={'choose-bill-type'}>
+          <div className={'choose-bill-type-title'}>
+            <div
+              className={ selectedTitle === 1 ? 'single-title selected-single-title' : 'single-title'}
+              onClick={() => {
+                this.setState({ selectedTitle: 1 })
+              }}
+            >支出</div>
+            <div
+              className={ selectedTitle === 0 ? 'single-title selected-single-title' : 'single-title'}
+              onClick={() => { this.setState({ selectedTitle: 0 }) }}
+            >收入</div>
+          </div>
+          <div className={'show-needed-bill-types'} id={'test-animation'}>
+            { neededBillType.map(item => {
+              const divClass = billType === item.uuid ? 'selected-bill-type' : ''
+              return (
+                <div className={divClass} key={item.uuid} onClick={() => this.billTypeChange(item.uuid)}>
+                  <img alt={''} src={item.icon} />
+                </div>)
+            }) }
+          </div>
+        </div>
         <div className={'label-span'}>
           <span className={'span'}>账单内容：</span>
           <Input className={'public-input-item'} onChange={(e) => { this.setState({ content: e.target.value }) }} value={content}/>
@@ -106,15 +142,6 @@ class CreateItemModal extends Component {
         <div className={'label-span'}>
           <span className={'span'}>账单金额：</span>
           <InputNumber style={{ width: '50%' }} onChange={(e) => { this.setState({ amount: e }) }} value={amount}/>
-        </div>
-        <div className={'label-span'}>
-          <span className={'span'}>账单类型：</span>
-          <Select style={{ width: '50%' }} onChange={this.billTypeChange} value={billType} allowClear>
-            { userBillType.map((item, index) => {
-              const nature = item.nature === 1 ? '支出' : '收入'
-              return <Option value={item.uuid} key={index}>{nature}：{item.name}</Option>
-            }) }
-          </Select>
         </div>
         <div className={'label-span'}>
           <span className={'span'}>账单日期：</span>

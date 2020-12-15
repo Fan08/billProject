@@ -5,6 +5,7 @@ import React from 'react'
 import Index from '../../index'
 import * as constants from './constants'
 import BillType from '../../views/management/billType'
+import ExpenditurePlan from '../../views/management/expenditurePlan'
 
 const defaultState = fromJS({
   totalIncome: 0,
@@ -31,6 +32,12 @@ const defaultState = fromJS({
         link: '/app/bill_type_manage',
         title: '账单类型管理',
         key: '/app/bill_type_manage',
+        child: []
+      }, {
+        routerDom: <Route key={'/app/expenditure_plan'} exact path={'/app/expenditure_plan'} component={ (props) => <ExpenditurePlan { ...props }/> } />,
+        link: '/app/expenditure_plan',
+        title: '支出计划管理',
+        key: '/app/expenditure_plan',
         child: []
       }]
     }

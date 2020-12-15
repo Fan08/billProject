@@ -30,11 +30,12 @@ class SideMenu extends Component {
         break
       } else if (i.child.length !== 0) {
         for (const x of i.child) {
-          if (x.key === locationUrl) fatherKey = i.key
-          break
+          if (x.key === locationUrl) {
+            fatherKey = i.key
+            break
+          }
         }
       }
-      if (fatherKey !== '') break
     }
     this.setState({
       selectedKeys: [locationUrl],

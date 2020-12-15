@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon, message } from 'antd'
+import { Icon, message, Popconfirm } from 'antd'
 import { connect } from 'react-redux'
 
 // import testIcon from '../../style/img/eatingIcon.png'
@@ -7,6 +7,7 @@ import { formDate } from '../../../../publicFunction'
 import { getAllBillTypes } from '../../../common/store/actionCreaters'
 import { Model } from '../../../../dataModule/testBone'
 import { deleteBillTypeWithUuidUrl } from '../../../../dataModule/UrlList'
+import './style.less'
 
 const model = new Model()
 
@@ -32,6 +33,10 @@ class SingleItem extends Component {
     )
   }
 
+  confirm = (uuid) => {
+    this.deleteBill(uuid)
+  }
+
   render() {
     const { billTypeItem } = this.props
     const itemClassName = billTypeItem.nature === 1 ? 'single-item' : 'single-item income-item'
@@ -48,12 +53,19 @@ class SingleItem extends Component {
         </div>
         <div className='right-block'>
           {/* <Icon type='edit' style={{ cursor: 'pointer' }}/>*/}
-          <Icon
-            type='delete'
-            theme={'filled'}
-            style={{ marginLeft: 20, color: 'red', cursor: 'pointer', fontSize: 20 }}
-            onClick={() => this.deleteBill(billTypeItem.uuid)}
-          />
+          <Popconfirm
+            style={{ backgroundColor: '#000' }}
+            title='确定要删除该类型？'
+            onConfirm={() => this.confirm(billTypeItem.uuid)}
+            okText='Yes'
+            cancelText='No'
+          >
+            <Icon
+              type='delete'
+              theme={'filled'}
+              style={{ marginLeft: 20, color: 'red', cursor: 'pointer', fontSize: 20 }}
+            />
+          </Popconfirm>
         </div>
       </div>
     )

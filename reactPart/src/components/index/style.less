@@ -1,5 +1,6 @@
 @publicWidth: 70%;
 @publicButtonColor: #8470FF;
+@publicButtonColorOfRgba: rgba(132, 112, 255, .4);
 
 .title-block {
   display: flex;
@@ -11,7 +12,7 @@
   margin: 0 auto;
   border-radius: 10px;
   border: 4px solid @publicButtonColor;
-  background-color: rgba(132, 112, 255, .4);
+  background-color: @publicButtonColorOfRgba;
   span {
     font-size: 1rem;
     font-weight: 700;
@@ -154,4 +155,62 @@
 .upload-bill-type-icon {
   width: ~'calc(50% - 60px)';
   display: inline-block;
+}
+
+.choose-bill-type {
+  .choose-bill-type-title {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
+    .single-title {
+      height: 30px;
+      line-height: 22px;
+      width: 46%;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 8px;
+      border: 4px solid @publicButtonColor;
+      color: @publicButtonColor;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .single-title:hover {
+      background-color: @publicButtonColorOfRgba;
+      color: #fff;
+    }
+    .selected-single-title {
+      background-color: @publicButtonColor;
+      color: #fff;
+    }
+  }
+
+  .show-needed-bill-types {
+    display: flex;
+    width: 80%;
+    justify-content: start;
+    margin: 20px auto;
+    padding: 1% 5%;
+    background-color: @publicButtonColorOfRgba;
+    border-radius: 10px;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      animation: fadeIn .4s;
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+    div:hover {
+      background-color: rgba(0, 0, 0, .1);
+    }
+    .selected-bill-type {
+      background-color: @publicButtonColorOfRgba;
+    }
+  }
 }

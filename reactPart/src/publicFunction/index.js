@@ -77,7 +77,9 @@ export function getBreadFromLocation(routers, location) {
     }
     if (i.child.length !== 0) {
       for (const x of i.child) {
-        return [i.title, x.title]
+        if (location === x.link) {
+          return [i.title, x.title]
+        }
       }
     }
   }

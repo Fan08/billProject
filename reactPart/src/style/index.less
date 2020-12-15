@@ -67,3 +67,23 @@ body {
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+// antd 气泡框
+@publicButtonColor: #E6E6FA;
+
+.ant-popover-inner-content {
+  background-color: @publicButtonColor;
+  padding: 12px 16px;
+  color: #000;
+}
+
+.ant-popover-message-title {
+  color: #000;
+  font-weight: 700;
+  letter-spacing: 2px
+}
+
+.ant-popover-placement-top > .ant-popover-content > .ant-popover-arrow, .ant-popover-placement-topLeft > .ant-popover-content > .ant-popover-arrow, .ant-popover-placement-topRight > .ant-popover-content > .ant-popover-arrow {
+  border-right-color: @publicButtonColor;
+  border-bottom-color: @publicButtonColor;
+}
