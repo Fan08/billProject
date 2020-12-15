@@ -102,7 +102,7 @@ class Index extends Component {
     const { userBill, totalPayout, totalIncome } = this.props
 
     return (
-      <div className='public-content-style' style={{ paddingTop: 20 }}>
+      <div className='public-content-style'>
         <div className='title-block'>
           <div className='search-block'>
             <span>选择月份：</span>

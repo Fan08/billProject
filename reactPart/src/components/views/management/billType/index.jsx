@@ -28,7 +28,7 @@ class Index extends Component {
   render() {
     const { userBillType, userUuid } = this.props
     return (
-      <div className='public-content-style' style={{ paddingTop: 20 }}>
+      <div className='public-content-style'>
         <div className='addBillTypeButton' onClick={this.showAddBillType}>创建新的账单类型</div>
         { userBillType.map((item) =>
           <SingleItem key={item.uuid} billTypeItem={item} creater={userUuid}/>) }

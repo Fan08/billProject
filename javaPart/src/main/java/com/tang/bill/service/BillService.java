@@ -38,11 +38,7 @@ public class BillService {
     SimpleDateFormat sdf =  new SimpleDateFormat("yyyy/MM/dd");
     Date date = sdf.parse(selectedDate);
 
-    HashMap<String, Object> hashMap = new HashMap<>();
-    hashMap.put("uuid", creater);
-    List<User> users = userMapper.selectByMap(hashMap);
-
-    if (users.size() == 0) {
+    if (this.selectUserWithUuid(creater) == 0) {
       result.put("status", 500);
       result.put("warning", "未找到对应的用户");
       return result;
@@ -137,5 +133,12 @@ public class BillService {
     wrapper.orderByAsc("bill_date");
     List<Map> bills = billMapper.selectBillWithWrapper(wrapper);
     return bills;
+  }
+
+  private int selectUserWithUuid(String uuid) {
+    HashMap<String, Object> hashMap = new HashMap<>();
+    hashMap.put("uuid", uuid);
+    List<User> users = userMapper.selectByMap(hashMap);
+    return users.size();
   }
 }

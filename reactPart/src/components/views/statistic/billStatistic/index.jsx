@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-class BillStatistic extends Component{
+class BillStatistic extends Component {
   render() {
     return (
       <div className='public-content-style'>

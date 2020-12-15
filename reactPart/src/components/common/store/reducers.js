@@ -6,6 +6,7 @@ import Index from '../../index'
 import * as constants from './constants'
 import BillType from '../../views/management/billType'
 import ExpenditurePlan from '../../views/management/expenditurePlan'
+import BillStatistic from '../../views/statistic/billStatistic'
 
 const defaultState = fromJS({
   totalIncome: 0,
@@ -36,8 +37,20 @@ const defaultState = fromJS({
       }, {
         routerDom: <Route key={'/app/expenditure_plan'} exact path={'/app/expenditure_plan'} component={ (props) => <ExpenditurePlan { ...props }/> } />,
         link: '/app/expenditure_plan',
-        title: '支出计划管理',
+        title: '财政计划管理',
         key: '/app/expenditure_plan',
+        child: []
+      }]
+    }, {
+      routerDom: null,
+      link: '',
+      title: '信息统计',
+      key: 'app3',
+      child: [{
+        routerDom: <Route key={'/app/bill_statistic'} exact path={'/app/bill_statistic'} component={ (props) => <BillStatistic { ...props }/> } />,
+        link: '/app/bill_statistic',
+        title: '账单统计',
+        key: '/app/bill_statistic',
         child: []
       }]
     }

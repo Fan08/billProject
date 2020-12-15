@@ -3,17 +3,12 @@ import { Modal, Input, InputNumber, DatePicker, message, Popover } from 'antd'
 import zh_CN from 'antd/es/locale-provider/zh_CN'
 // import moment from 'moment'
 import 'moment/locale/zh-cn'
-import './style.less'
 import moment from 'moment'
 import { connect } from 'react-redux'
 
-import { addBill } from '../../dataModule/UrlList'
-import { Model } from '../../dataModule/testBone'
-
-const model = new Model()
-
 // const { Option } = Select
-const monthFormat = 'YYYY/MM/DD'
+const monthFormat = 'YYYY-MM'
+const { MonthPicker } = DatePicker
 
 class CreateItemModal extends Component {
   constructor(props) {
@@ -44,7 +39,7 @@ class CreateItemModal extends Component {
   }
 
   handleOk = () => {
-    const { selectedMonth, searchWithMonth } = this.props
+    // const { selectedMonth, searchWithMonth } = this.props
     const singleBill = this.state
     for (const i in singleBill) {
       if (singleBill[i] === null) {
@@ -59,19 +54,6 @@ class CreateItemModal extends Component {
     params['amount'] = parseFloat(params['amount']).toFixed(2)
     params['creater'] = this.props.userUuid
     params['type'] = singleBill.billType
-    model.fetch(
-      params,
-      addBill,
-      'post',
-      function(response) {
-        searchWithMonth(selectedMonth)
-        return
-      },
-      // eslint-disable-next-line handle-callback-err
-      function(error) {
-        return
-      }
-    )
   }
 
   billTypeChange = (value) => {
@@ -94,7 +76,7 @@ class CreateItemModal extends Component {
 
     return (
       <Modal
-        title='创建新的记账记录'
+        title='创建新的财政计划'
         width='50%'
         okText={'确认'}
         cancelText={'取消'}
@@ -136,16 +118,16 @@ class CreateItemModal extends Component {
           </div>
         </div>
         <div className={'label-span'}>
-          <span className={'span'}>账单内容：</span>
+          <span className={'span'}>计划内容：</span>
           <Input className={'public-input-item'} onChange={(e) => { this.setState({ content: e.target.value }) }} value={content}/>
         </div>
         <div className={'label-span'}>
-          <span className={'span'}>账单金额：</span>
+          <span className={'span'}>计划金额：</span>
           <InputNumber style={{ width: '50%' }} onChange={(e) => { this.setState({ amount: e }) }} value={amount}/>
         </div>
         <div className={'label-span'}>
-          <span className={'span'}>账单日期：</span>
-          <DatePicker
+          <span className={'span'}>计划月份：</span>
+          <MonthPicker
             value={selectedDate === '' ? null : moment(selectedDate, monthFormat)}
             format={monthFormat}
             onChange={this.dateChange}

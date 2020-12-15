@@ -1,5 +1,5 @@
 import { Model } from '../../../dataModule/testBone'
-import { billTypes, getBillWithCreater } from '../../../dataModule/UrlList'
+import { getBillWithCreater, getBillTypesWithCreater } from '../../../dataModule/UrlList'
 import * as constants from './constants'
 import store from '../../../store'
 
@@ -37,19 +37,11 @@ export const dispatchBillTypes = (data) => ({
 })
 
 export const getAllBillTypes = (userUuid) => {
-  model.fetch(
-    { creater: userUuid },
-    billTypes,
-    'POST',
-    function(response) {
-      const data = response.data.billTypes
+  getBillTypesWithCreater({ creater: userUuid })
+    .then(res => {
+      const data = res.data.billTypes
       store.dispatch(dispatchBillTypes(data))
-    },
-    // eslint-disable-next-line handle-callback-err
-    function(error) {
-      return
-    }
-  )
+    })
 }
 
 export const getAllBills = (userUuid) => {

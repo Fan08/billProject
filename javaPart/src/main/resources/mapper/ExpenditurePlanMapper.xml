@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tang.bill.mapper.ExpenditurePlanMapper">
+    <select id="getExpenditurePlanByCreaterAndMonth" resultType="map">
+        SELECT *
+        FROM expenditure_plan
+        WHERE creater='${creater}'
+          AND TO_DAYS(expenditure_month) BETWEEN TO_DAYS('${month}-01') AND TO_DAYS('${month}-03')
+    </select>
+</mapper>
