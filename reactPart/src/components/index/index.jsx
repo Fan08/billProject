@@ -11,6 +11,8 @@ import { getBillWithCreaterAndMonthUrl } from '../../dataModule/UrlList'
 import { Model } from '../../dataModule/testBone'
 import store from '../../store'
 import SingleItem from './singleItem'
+import LoadingUI from '../../dataModule/loading_UI'
+import { getCurrentMonthOfString } from '../../publicFunction'
 
 import CreateBillType from './createBillType'
 import CreateItemModal from './createItemModal'
@@ -28,10 +30,8 @@ const model = new Model()
 class Index extends Component {
   constructor(props) {
     super(props)
-    const now = new Date()
-    const month = now.getMonth() + 1
     this.state = {
-      selectedMonth: now.getFullYear() + '/' + month,
+      selectedMonth: getCurrentMonthOfString(),
       createModalVisible: false,
       addBillTypeVisible: false
     }
@@ -100,6 +100,17 @@ class Index extends Component {
   render() {
     const { selectedMonth } = this.state
     const { userBill, totalPayout, totalIncome } = this.props
+    const billListDom = <div>
+                          { userBill.map((item) => {
+                            return <SingleItem
+                              item={item}
+                              selectedMonth={selectedMonth}
+                              searchWithMonth={this.searchWithMonth}
+                              key={item.uuid}
+                            />
+                          }) }
+                        </div>
+    const neededBillListDom = userBill.length === 0 ? <LoadingUI /> : billListDom
 
     return (
       <div className='public-content-style'>
@@ -124,16 +135,7 @@ class Index extends Component {
 
         <div className='addBillTypeButton' onClick={this.showAddBillType}>创建新的账单类型</div>
         <div className='addButton' onClick={this.showModal}>创建新的记账记录</div>
-         <div>
-           { userBill.map((item) => {
-             return <SingleItem
-               item={item}
-               selectedMonth={selectedMonth}
-               searchWithMonth={this.searchWithMonth}
-               key={item.uuid}
-             />
-           }) }
-         </div>
+         { neededBillListDom }
         <CreateItemModal
           selectedMonth={selectedMonth}
           searchWithMonth={this.searchWithMonth}

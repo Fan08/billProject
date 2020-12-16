@@ -34,9 +34,11 @@ public class ExpenditurePlanService {
 
     String type = (String) map.get("type");
     String content = (String) map.get("content");
-    double amount = (double) map.get("amount");
+    String amountString = (String) map.get("amount");
     String expenditure_month = (String) map.get("expenditure_month");
     String creater = (String) map.get("creater");
+
+    Double amount = Double.valueOf(amountString);
 
     SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM");
     Date date = sdf.parse(expenditure_month);
@@ -91,7 +93,7 @@ public class ExpenditurePlanService {
     if (deleteByMap == 1) {
       result.put("status", 200);
     } else {
-      result.put("status", 200);
+      result.put("status", 500);
       result.put("warning", "删除财政计划失败！");
     }
     return result;

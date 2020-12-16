@@ -6,6 +6,10 @@ import 'moment/locale/zh-cn'
 import moment from 'moment'
 import { connect } from 'react-redux'
 
+import { getCurrentMonthOfString } from '../../../../publicFunction'
+import { addExpenditurePlan } from '../../../../dataModule/UrlList'
+import { actionCreators } from '../store'
+
 // const { Option } = Select
 const monthFormat = 'YYYY-MM'
 const { MonthPicker } = DatePicker
@@ -27,10 +31,8 @@ class CreateItemModal extends Component {
   }
 
   initSate = () => {
-    const now = new Date()
-    const month = now.getMonth() + 1
     const init = {
-      selectedDate: now.getFullYear() + '/' + month + '/' + now.getDate(),
+      selectedDate: getCurrentMonthOfString(1),
       amount: null,
       content: null,
       billType: null
@@ -39,7 +41,8 @@ class CreateItemModal extends Component {
   }
 
   handleOk = () => {
-    // const { selectedMonth, searchWithMonth } = this.props
+    const { userUuid, selectedMonth } = this.props
+
     const singleBill = this.state
     for (const i in singleBill) {
       if (singleBill[i] === null) {
@@ -54,6 +57,15 @@ class CreateItemModal extends Component {
     params['amount'] = parseFloat(params['amount']).toFixed(2)
     params['creater'] = this.props.userUuid
     params['type'] = singleBill.billType
+    params['expenditure_month'] = singleBill.selectedDate
+    addExpenditurePlan(params).then(res => {
+      if (res.data.status === 200) {
+        actionCreators.getUserExpenditurePlanWithUserAndMonth(userUuid, selectedMonth)
+        message.success('创建财政计划成功！')
+      } else {
+        message.error('创建财政计划失败！')
+      }
+    })
   }
 
   billTypeChange = (value) => {
@@ -62,6 +74,11 @@ class CreateItemModal extends Component {
 
   dateChange = (date, dateString) => {
     this.setState({ selectedDate: dateString })
+  }
+
+  disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current < moment().endOf('day')
   }
 
   render() {
@@ -128,6 +145,7 @@ class CreateItemModal extends Component {
         <div className={'label-span'}>
           <span className={'span'}>计划月份：</span>
           <MonthPicker
+            disabledDate={this.disabledDate}
             value={selectedDate === '' ? null : moment(selectedDate, monthFormat)}
             format={monthFormat}
             onChange={this.dateChange}

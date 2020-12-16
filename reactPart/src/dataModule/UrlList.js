@@ -27,3 +27,27 @@ export function getBillTypesWithCreater(params) {
     data: params
   })
 }
+
+export function addExpenditurePlan(data) {
+  return request({
+    url: originalUrl + '/addExpenditurePlan',
+    method: 'post',
+    data
+  })
+}
+
+export function getExpenditurePlanByCreaterAndMonth(data) {
+  return request({
+    url: originalUrl + '/getExpenditurePlanByCreaterAndMonth',
+    method: 'post',
+    data
+  })
+}
+
+export function deleteExpenditurePlanWithUuid(data) {
+  return request({
+    url: originalUrl + '/deleteExpenditurePlanWithUuid',
+    method: 'post',
+    data
+  })
+}

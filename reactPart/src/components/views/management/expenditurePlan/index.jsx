@@ -4,7 +4,11 @@ import moment from 'moment'
 import zh_CN from 'antd/es/locale-provider/zh_CN'
 import { DatePicker } from 'antd'
 
+import { getCurrentMonthOfString } from '../../../../publicFunction'
 import CreateItemModal from './createItemModal'
+import { actionCreators } from '../store'
+import SingleItem from './singleItem'
+import LoadingUI from '../../../../dataModule/loading_UI'
 
 moment.locale('zh-cn')
 
@@ -14,14 +18,22 @@ const { MonthPicker } = DatePicker
 
 class ExpenditurePlan extends Component {
   state = {
-    selectedMonth: '',
+    selectedMonth: getCurrentMonthOfString(1),
     totalIncome: '',
     totalPayout: '',
     createItemModalVisible: false
   }
 
+  componentDidMount() {
+    const { selectedMonth } = this.state
+    const { userUuid } = this.props
+    actionCreators.getUserExpenditurePlanWithUserAndMonth(userUuid, selectedMonth)
+  }
+
   onChange = (date, dateString) => {
+    const { userUuid } = this.props
     this.setState({ 'selectedMonth': dateString })
+    actionCreators.getUserExpenditurePlanWithUserAndMonth(userUuid, dateString)
   }
 
   showAddExpenditurePlan = () => {
@@ -38,6 +50,15 @@ class ExpenditurePlan extends Component {
 
   render() {
     const { selectedMonth, totalIncome, totalPayout, createItemModalVisible } = this.state
+    const { userExpenditurePlan } = this.props
+    const expenditurePlanDom = userExpenditurePlan.map(item => {
+      return <SingleItem
+        selectedMonth={selectedMonth}
+        key={item.uuid}
+        expenditurePlanItem={item}
+      />
+    })
+    const neededExpenditurePlanListDom = userExpenditurePlan.length === 0 ? <LoadingUI /> : expenditurePlanDom
 
     return (
       <div className='public-content-style'>
@@ -60,6 +81,7 @@ class ExpenditurePlan extends Component {
           </div>
         </div>
         <div className='addButton' onClick={this.showAddExpenditurePlan}>创建新的财政计划</div>
+        { neededExpenditurePlanListDom }
 
         <CreateItemModal
           selectedMonth={selectedMonth}
@@ -73,6 +95,8 @@ class ExpenditurePlan extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    userExpenditurePlan: state.get('managementReducer').get('userExpenditurePlan').toJS(),
+
     userBillType: state.get('commonReducer').get('userBillType').toJS(),
     userUuid: state.get('commonReducer').get('userUuid')
   }

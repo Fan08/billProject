@@ -2,9 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tang.bill.mapper.ExpenditurePlanMapper">
     <select id="getExpenditurePlanByCreaterAndMonth" resultType="map">
-        SELECT *
+        SELECT expenditure_plan.*, bill_type.name, bill_type.nature, bill_type.icon
         FROM expenditure_plan
+        LEFT JOIN bill_type ON bill_type.uuid=expenditure_plan.type
         WHERE creater='${creater}'
-          AND TO_DAYS(expenditure_month) BETWEEN TO_DAYS('${month}-01') AND TO_DAYS('${month}-03')
+          AND TO_DAYS(expenditure_month)=TO_DAYS('${month}-01')
     </select>
 </mapper>

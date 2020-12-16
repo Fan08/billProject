@@ -85,6 +85,7 @@ export function getBreadFromLocation(routers, location) {
   }
 }
 
+// 将 iso 时间转正常字符串
 export function formDate(dateForm) {
   if (dateForm === '') {
     return ''
@@ -92,4 +93,15 @@ export function formDate(dateForm) {
     const dateee = new Date(dateForm).toJSON()
     return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
   }
+}
+
+export function getCurrentMonthOfString(editMonth = 0) {
+  const now = new Date()
+  let month = now.getMonth() + 1 + editMonth
+  let year = now.getFullYear()
+  if (month > 12) {
+    month = 1
+    year += 1
+  }
+  return year + '-' + month
 }
