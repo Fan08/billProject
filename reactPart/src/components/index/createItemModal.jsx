@@ -13,7 +13,7 @@ import { Model } from '../../dataModule/testBone'
 const model = new Model()
 
 // const { Option } = Select
-const monthFormat = 'YYYY/MM/DD'
+const monthFormat = 'YYYY/MM'
 
 class CreateItemModal extends Component {
   constructor(props) {
@@ -64,7 +64,7 @@ class CreateItemModal extends Component {
       addBill,
       'post',
       function(response) {
-        searchWithMonth(selectedMonth)
+        searchWithMonth(selectedMonth.split('-').join('/'))
         return
       },
       // eslint-disable-next-line handle-callback-err

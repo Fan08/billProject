@@ -61,11 +61,10 @@
         <resources>
             <!-- 编译 src/main/java 目录下的 mapper 文件 -->
             <resource>
-                <directory>src/main/java/resources/mapper</directory>
+                <directory>src/main/java/resources</directory>
                 <includes>
-                    <include>*.xml</include>
+                    <include>mapper/*.xml</include>
                 </includes>
-                <filtering>false</filtering>
             </resource>
         </resources>
         <plugins>

@@ -24,15 +24,11 @@ public class UserService {
     String creater = (String) map.get("creater");
 
     int integer = userMapper.selectCount(null) + 1;
-    String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-    Date date = new Date();
 
     User newUser = new User();
 
     // 由后台生成的字段
-    newUser.setUuid(uuid);
     newUser.setAccount(Integer.toString(integer));
-    newUser.setCreated_date(date);
 
     newUser.setPassword(password);
     newUser.setRole(role);

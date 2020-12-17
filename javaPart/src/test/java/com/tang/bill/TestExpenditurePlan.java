@@ -19,4 +19,12 @@ class TestExpenditurePlan {
 
   @Autowired
   private BillMapper billMapper;
+
+  @Test
+  void testMapper() {
+    List<Map> maps = billMapper.selectTestWithSqlInXml();
+    for (Map map : maps) {
+      System.out.println(map);
+    }
+  }
 }

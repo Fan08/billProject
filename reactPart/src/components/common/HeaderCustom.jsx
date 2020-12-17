@@ -3,7 +3,6 @@ import { Layout, Icon, Dropdown, Menu } from 'antd'
 import history from './history'
 import { removeCookie } from '../../helpers/cookies'
 import { withRouter } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 
 import '../../style/header.less'
 import logo from '../../statistics/logo.png'
@@ -68,9 +67,7 @@ class HeaderCustom extends Component {
       return (
         <Header className='header-style header'>
           <img alt='logo' src={logo}/>
-          <Link to='/technology-system'>
-            <span className={'header-span'}>我的记账本</span>
-          </Link>
+          <span className={'header-span'}>我的记账本</span>
           <span className='date-span'>{this.state.date.toLocaleString()}</span>
           <div className={'user-icon-div'}>
             <Dropdown overlay={menu}>

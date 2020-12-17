@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.*;
 
 @TableName("user_management")
 public class User {
+  @TableField(fill = FieldFill.INSERT)
   private String uuid;
   private String account;
   private String password;

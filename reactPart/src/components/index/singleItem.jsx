@@ -20,7 +20,7 @@ class SingleItem extends Component {
       deleteBill,
       'post',
       function(response) {
-        searchWithMonth(selectedMonth)
+        searchWithMonth(selectedMonth.split('-').join('/'))
       },
       function(response) {}
     )

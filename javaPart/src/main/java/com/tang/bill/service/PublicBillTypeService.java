@@ -40,12 +40,7 @@ public class PublicBillTypeService {
       return result;
     }
 
-    String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-    Date date = new Date();
-
     PublicBillType billType = new PublicBillType();
-    billType.setCreated_date(date);
-    billType.setUuid(uuid);
     billType.setName(name);
     billType.setNature(nature);
     billType.setIcon(icon);

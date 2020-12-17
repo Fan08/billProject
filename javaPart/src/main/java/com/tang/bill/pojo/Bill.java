@@ -1,19 +1,24 @@
 package com.tang.bill.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.util.Date;
 
 @TableName("single_bill")
 public class Bill {
+  @TableField(fill = FieldFill.INSERT)
   private String uuid;
   private String content;
   private double amount;
   private String type;
   private String plan;
   private String creater;
+  @TableField(fill = FieldFill.INSERT)
   private Date created_date;
   private String updater;
+  @TableField(fill = FieldFill.INSERT_UPDATE)
   private Date updated_date;
   private Date bill_date;
 

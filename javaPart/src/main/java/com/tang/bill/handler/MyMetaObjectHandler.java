@@ -6,6 +6,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Slf4j
 @Component // 将处理器注入 IOC 容器
@@ -15,6 +16,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
   public void insertFill(MetaObject metaObject) {
     log.info("start insert fill ...");
     this.setFieldValByName("created_date", new Date(), metaObject);
+    this.setFieldValByName("uuid", UUID.randomUUID().toString().replaceAll("-", ""), metaObject);
     // this.setFieldValByName("updated_date", new Date(), metaObject);
   }
 

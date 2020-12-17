@@ -28,8 +28,6 @@ public class ExpenditurePlanService {
   public JSONObject addExpenditurePlan(@RequestBody Map map) throws ParseException {
     JSONObject result = new JSONObject();
 
-    String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-    Date now = new Date();
     ExpenditurePlan expenditurePlan = new ExpenditurePlan();
 
     String type = (String) map.get("type");
@@ -48,13 +46,11 @@ public class ExpenditurePlanService {
       result.put("status", 500);
       result.put("warning", "未找到对应的用户");
     } else {
-      expenditurePlan.setUuid(uuid);
       expenditurePlan.setType(type);
       expenditurePlan.setContent(content);
       expenditurePlan.setAmount(amount);
       expenditurePlan.setExpenditure_month(date);
       expenditurePlan.setCreater(creater);
-      expenditurePlan.setCreated_date(now);
 
       int insert = expenditurePlanMapper.insert(expenditurePlan);
       if (insert == 1) {

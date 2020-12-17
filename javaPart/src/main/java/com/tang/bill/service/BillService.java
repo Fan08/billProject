@@ -44,18 +44,12 @@ public class BillService {
       return result;
     }
 
-    String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-
-    Date now = new Date();
-
     Bill bill = new Bill();
-    bill.setUuid(uuid);
     bill.setContent(content);
     bill.setAmount(Double.parseDouble(amount));
     bill.setType(type);
     bill.setCreater(creater);
     bill.setBill_date(date);
-    bill.setCreated_date(now);
 
     int insert = billMapper.insert(bill);
 
@@ -130,7 +124,7 @@ public class BillService {
     QueryWrapper wrapper = new QueryWrapper();
     wrapper.between("bill_date", dates[0], dates[1]);
     wrapper.like("creater", creater);
-    wrapper.orderByAsc("bill_date");
+    wrapper.orderByDesc("bill_date");
     List<Map> bills = billMapper.selectBillWithWrapper(wrapper);
     return bills;
   }
