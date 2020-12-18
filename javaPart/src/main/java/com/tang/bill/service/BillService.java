@@ -25,6 +25,9 @@ public class BillService {
   @Autowired
   private UserMapper userMapper;
 
+  @Autowired
+  private CommonFunction commonFunction;
+
   @PostMapping("/addBill")
   public JSONObject addBill(@RequestBody Map map) throws ParseException {
     JSONObject result = new JSONObject();
@@ -118,14 +121,13 @@ public class BillService {
   }
 
   private List getBillsWithCreaterAndDate(int year, int month, String creater) {
-    CommonFunction commonFunction = new CommonFunction();
     Date[] dates = commonFunction.generateStartDateAndEndDateOfMonth(year, month);
 
     QueryWrapper wrapper = new QueryWrapper();
     wrapper.between("bill_date", dates[0], dates[1]);
     wrapper.like("creater", creater);
     wrapper.orderByDesc("bill_date");
-    List<Map> bills = billMapper.selectBillWithWrapper(wrapper);
+    List bills = billMapper.selectBillWithWrapper(wrapper);
     return bills;
   }
 

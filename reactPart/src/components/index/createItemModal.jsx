@@ -13,7 +13,7 @@ import { Model } from '../../dataModule/testBone'
 const model = new Model()
 
 // const { Option } = Select
-const monthFormat = 'YYYY/MM'
+const monthFormat = 'YYYY/MM/DD'
 
 class CreateItemModal extends Component {
   constructor(props) {

@@ -1,8 +1,11 @@
 package com.tang.bill.util;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Calendar;
 import java.util.Date;
 
+@Component
 public class CommonFunction {
   public Date[] generateStartDateAndEndDateOfMonth(int year, int month) {
     Calendar cal = Calendar.getInstance();
