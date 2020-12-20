@@ -1,5 +1,6 @@
 package com.tang.bill.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tang.bill.mapper.BillMapper;
@@ -100,7 +101,9 @@ public class BillService {
     int month = cal.get(Calendar.MONTH);
     List bills = this.getBillsWithCreaterAndDate(year, month, creater);
 
-    result.put("bills", bills);
+    JSONArray objects = this.splitBillsAccordingToDate(bills);
+
+    result.put("bills", objects);
     return result;
   }
 
@@ -116,7 +119,9 @@ public class BillService {
     int month = Integer.parseInt(split[1]) - 1;
     List bills = this.getBillsWithCreaterAndDate(year, month, creater);
 
-    result.put("bills", bills);
+    JSONArray objects = this.splitBillsAccordingToDate(bills);
+
+    result.put("bills", objects);
     return result;
   }
 
@@ -136,5 +141,27 @@ public class BillService {
     hashMap.put("uuid", uuid);
     List<User> users = userMapper.selectByMap(hashMap);
     return users.size();
+  }
+
+  private JSONArray splitBillsAccordingToDate(List bills) {
+    JSONArray result = new JSONArray();
+    JSONArray singleDate = new JSONArray();
+    Date currDate = null;
+    for (Object bill : bills) {
+      JSONObject billJson = (JSONObject) JSONObject.toJSON(bill);
+      if (currDate == null) {
+        currDate = (Date) billJson.get("bill_date");
+      }
+      Date thisDate = (Date) billJson.get("bill_date");
+      if (currDate.equals(thisDate)) {
+        singleDate.add(bill);
+      } else {
+        currDate = (Date) billJson.get("bill_date");
+        result.add(singleDate);
+        singleDate = new JSONArray();
+        singleDate.add(bill);
+      }
+    }
+    return result;
   }
 }

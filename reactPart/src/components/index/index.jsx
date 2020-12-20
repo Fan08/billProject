@@ -12,6 +12,7 @@ import { Model } from '../../dataModule/testBone'
 import store from '../../store'
 import SingleItem from './singleItem'
 import LoadingUI from '../../dataModule/loading_UI'
+import ItemOfWeek from './itemOfWeek'
 import { getCurrentMonthOfString } from '../../publicFunction'
 
 import CreateBillType from './createBillType'
@@ -50,17 +51,23 @@ class Index extends Component {
       'post',
       function(res) {
         const data = res.data.bills
+        const result = []
         let payout = 0
         let income = 0
         for (const i of data) {
-          i['bill_date'] = moment(i['bill_date']).format('YYYY-MM-DD')
-          if (i.nature === 1) payout += i.amount
-          else income += i.amount
+          const singleDayData = []
+          for (const x of i) {
+            x['bill_date'] = moment(x['bill_date']).format('YYYY-MM-DD')
+            if (x.nature === 1) payout += x.amount
+            else income += x.amount
+            singleDayData.push(x)
+          }
+          result.push(singleDayData)
         }
 
         store.dispatch(dispatchTotalIncome(income))
         store.dispatch(dispatchTotalPayout(payout))
-        store.dispatch(dispatchUserBill(data))
+        store.dispatch(dispatchUserBill(result))
       },
       function(res) {
         return
@@ -102,12 +109,30 @@ class Index extends Component {
     const { userBill, totalPayout, totalIncome } = this.props
     const billListDom = <div>
                           { userBill.map((item) => {
-                            return <SingleItem
-                              item={item}
-                              selectedMonth={selectedMonth}
-                              searchWithMonth={this.searchWithMonth}
-                              key={item.uuid}
-                            />
+                            let inputOfWeek = 0
+                            let outputOfWeek = 0
+                            const billsDom = []
+                            for (const i of item) {
+                              if (i.nature === 1) {
+                                outputOfWeek += i.amount
+                              } else {
+                                inputOfWeek += i.amount
+                              }
+                              const singleDom = <SingleItem
+                                item={i}
+                                selectedMonth={selectedMonth}
+                                searchWithMonth={this.searchWithMonth}
+                                key={i.uuid}
+                              />
+                              billsDom.push(singleDom)
+                            }
+                            billsDom.unshift(<ItemOfWeek
+                              key={item[0]['bill_date']}
+                              date={item[0]['bill_date']}
+                              input={inputOfWeek.toFixed(2)}
+                              output={outputOfWeek.toFixed(2)}
+                            />)
+                            return billsDom
                           }) }
                         </div>
     const neededBillListDom = userBill.length === 0 ? <LoadingUI /> : billListDom
@@ -127,9 +152,9 @@ class Index extends Component {
           </div>
           <div className='total-pay'>
             <span>收入：</span>
-            <span>{totalIncome} 元</span>
+            <span>{totalIncome.toFixed(2)} 元</span>
             <span>支出：</span>
-            <span>{totalPayout} 元</span>
+            <span>{totalPayout.toFixed(2)} 元</span>
           </div>
         </div>
 

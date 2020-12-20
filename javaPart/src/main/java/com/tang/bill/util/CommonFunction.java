@@ -2,6 +2,8 @@ package com.tang.bill.util;
 
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,5 +23,29 @@ public class CommonFunction {
     Date lastDate = cal2.getTime();
 
     return new Date[]{firstDate, lastDate};
+  }
+
+  public static String timeStamp2Date(Long time) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//要转换的时间格式
+    Date date;
+    try {
+      date = sdf.parse(sdf.format(time));
+      return sdf.format(date);
+    } catch (ParseException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static String timeStamp2Date(Long time, String dateType) {
+    SimpleDateFormat sdf = new SimpleDateFormat(dateType);//要转换的时间格式
+    Date date;
+    try {
+      date = sdf.parse(sdf.format(time));
+      return sdf.format(date);
+    } catch (ParseException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 }

@@ -51,12 +51,18 @@ export const getAllBills = (userUuid) => {
     'POST',
     function(response) {
       const data = response.data.bills
+      const result = []
       let payout = 0
       let income = 0
       for (const i of data) {
-        i['bill_date'] = moment(i['bill_date']).format('YYYY-MM-DD')
-        if (i.nature === 1) payout += i.amount
-        else income += i.amount
+        const singleDayData = []
+        for (const x of i) {
+          x['bill_date'] = moment(x['bill_date']).format('YYYY-MM-DD')
+          if (x.nature === 1) payout += x.amount
+          else income += x.amount
+          singleDayData.push(x)
+        }
+        result.push(singleDayData)
       }
       store.dispatch(dispatchTotalIncome(income))
       store.dispatch(dispatchTotalPayout(payout))
