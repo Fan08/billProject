@@ -7,14 +7,9 @@ import moment from 'moment'
 import 'moment/locale/zh-cn'
 
 import {
-  // dispatchTotalIncome,
-  // dispatchTotalPayout,
-  // dispatchUserBill,
   dispatchUserBillIsLoading,
   queryBills
 } from '../common/store/actionCreaters'
-// import { getBillWithCreaterAndMonthUrl } from '../../dataModule/UrlList'
-// import { Model } from '../../dataModule/testBone'
 import store from '../../store'
 import SingleItem from './singleItem'
 import LoadingUI from '../../dataModule/loading_UI'
@@ -32,7 +27,6 @@ moment.locale('zh-cn')
 const monthFormat = 'YYYY/MM'
 
 const { MonthPicker } = DatePicker
-// const model = new Model()
 
 class Index extends Component {
   constructor(props) {
@@ -53,35 +47,6 @@ class Index extends Component {
     const date = dateString
     const creater = this.props.userUuid
     queryBills({ date: date, creater })
-    // model.fetch(
-    //   { date, creater },
-    //   getBillWithCreaterAndMonthUrl,
-    //   'post',
-    //   function(res) {
-    //     const data = res.data.bills
-    //     const result = []
-    //     let payout = 0
-    //     let income = 0
-    //     for (const i of data) {
-    //       const singleDayData = []
-    //       for (const x of i) {
-    //         x['bill_date'] = moment(x['bill_date']).format('YYYY-MM-DD')
-    //         if (x.nature === 1) payout += x.amount
-    //         else income += x.amount
-    //         singleDayData.push(x)
-    //       }
-    //       result.push(singleDayData)
-    //     }
-    //
-    //     store.dispatch(dispatchTotalIncome(income))
-    //     store.dispatch(dispatchTotalPayout(payout))
-    //     store.dispatch(dispatchUserBillIsLoading(false))
-    //     store.dispatch(dispatchUserBill(result))
-    //   },
-    //   function(res) {
-    //     return
-    //   }
-    // )
   }
 
   showModal = () => {
