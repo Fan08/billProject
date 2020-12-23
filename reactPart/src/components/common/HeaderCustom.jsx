@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Layout, Icon, Dropdown, Menu } from 'antd'
+// import { Layout, Icon, Dropdown, Menu } from 'antd'
+import { Layout } from 'antd'
 import history from './history'
 import { removeCookie } from '../../helpers/cookies'
 import { withRouter } from 'react-router-dom'
@@ -58,11 +59,11 @@ class HeaderCustom extends Component {
     }
 
     render() {
-      const menu = (
-        <Menu>
-          <Menu.Item onClick={this.logout}>退出登陆</Menu.Item>
-        </Menu>
-      )
+      // const menu = (
+      //   <Menu>
+      //     <Menu.Item onClick={this.logout}>退出登陆</Menu.Item>
+      //   </Menu>
+      // )
 
       return (
         <Header className='header-style header'>
@@ -70,15 +71,15 @@ class HeaderCustom extends Component {
           <span className={'header-span'}>我的记账本</span>
           <span className='date-span'>{this.state.date.toLocaleString()}</span>
           <div className={'user-icon-div'}>
-            <Dropdown overlay={menu}>
-              <a className='ant-dropdown-link' onClick={e => e.preventDefault()} style={{ color: 'white' }}>
-                <span style={{ marginRight: 5 }}>
-                  <Icon type='user' style={{ marginRight: 10 }}/>
-                  {this.props.username}
-                </span>
-                <Icon type='down' />
-              </a>
-            </Dropdown>
+            {/* <Dropdown overlay={menu}>*/}
+            {/*  <a className='ant-dropdown-link' onClick={e => e.preventDefault()} style={{ color: 'white' }}>*/}
+            {/*    <span style={{ marginRight: 5 }}>*/}
+            {/*      <Icon type='user' style={{ marginRight: 10 }}/>*/}
+            {/*      {this.props.username}*/}
+            {/*    </span>*/}
+            {/*    <Icon type='down' />*/}
+            {/*  </a>*/}
+            {/* </Dropdown>*/}
           </div>
         </Header>
       )

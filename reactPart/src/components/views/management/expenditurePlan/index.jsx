@@ -19,8 +19,6 @@ const { MonthPicker } = DatePicker
 class ExpenditurePlan extends Component {
   state = {
     selectedMonth: getCurrentMonthOfString(1),
-    totalIncome: '',
-    totalPayout: '',
     createItemModalVisible: false
   }
 
@@ -49,8 +47,8 @@ class ExpenditurePlan extends Component {
   }
 
   render() {
-    const { selectedMonth, totalIncome, totalPayout, createItemModalVisible } = this.state
-    const { userExpenditurePlan } = this.props
+    const { selectedMonth, createItemModalVisible } = this.state
+    const { userExpenditurePlan, programmeOutput, programmeInput } = this.props
     const expenditurePlanDom = userExpenditurePlan.map(item => {
       return <SingleItem
         selectedMonth={selectedMonth}
@@ -74,10 +72,10 @@ class ExpenditurePlan extends Component {
             />
           </div>
           <div className='total-pay'>
-            <span>收入：</span>
-            <span>{totalIncome} 元</span>
-            <span>支出：</span>
-            <span>{totalPayout} 元</span>
+            <span>计划收入：</span>
+            <span>{programmeInput} 元</span>
+            <span>计划支出：</span>
+            <span>{programmeOutput} 元</span>
           </div>
         </div>
         <div className='addButton' onClick={this.showAddExpenditurePlan}>创建新的财政计划</div>
@@ -96,6 +94,8 @@ class ExpenditurePlan extends Component {
 const mapStateToProps = (state) => {
   return {
     userExpenditurePlan: state.get('managementReducer').get('userExpenditurePlan').toJS(),
+    programmeOutput: state.get('managementReducer').get('programmeOutput'),
+    programmeInput: state.get('managementReducer').get('programmeInput'),
 
     userBillType: state.get('commonReducer').get('userBillType').toJS(),
     userUuid: state.get('commonReducer').get('userUuid')

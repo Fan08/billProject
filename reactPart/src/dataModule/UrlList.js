@@ -20,6 +20,22 @@ export const addBill = '/addBill'
 export const deleteBill = '/deleteBill'
 export const getBillWithCreaterAndMonthUrl = '/getBillWithCreaterAndMonth'
 
+export function queryBillWithCreater(params) {
+  return request({
+    url: originalUrl + getBillWithCreater,
+    method: 'post',
+    data: params
+  })
+}
+
+export function queryBillWithCreaterAndMonthUrl(params) {
+  return request({
+    url: originalUrl + getBillWithCreaterAndMonthUrl,
+    method: 'post',
+    data: params
+  })
+}
+
 export function getBillTypesWithCreater(params) {
   return request({
     url: originalUrl + '/getBillTypesWithCreater',

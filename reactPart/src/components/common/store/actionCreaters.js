@@ -1,5 +1,8 @@
-import { Model } from '../../../dataModule/testBone'
-import { getBillWithCreater, getBillTypesWithCreater } from '../../../dataModule/UrlList'
+import {
+  getBillTypesWithCreater,
+  queryBillWithCreater,
+  queryBillWithCreaterAndMonthUrl
+} from '../../../dataModule/UrlList'
 import * as constants from './constants'
 import store from '../../../store'
 
@@ -8,8 +11,6 @@ import store from '../../../store'
 // import React from 'react'
 import { fromJS } from 'immutable'
 import moment from 'moment'
-
-const model = new Model()
 
 export const dispatchUserBillIsLoading = (data) => ({
   type: constants.userBillIsLoading,
@@ -51,33 +52,29 @@ export const getAllBillTypes = (userUuid) => {
 
 export const getAllBills = (userUuid) => {
   store.dispatch(dispatchUserBillIsLoading(true))
-  model.fetch(
-    { creater: userUuid },
-    getBillWithCreater,
-    'POST',
-    function(response) {
-      const data = response.data.bills
-      const result = []
+  queryBills({ creater: userUuid })
+}
+
+export function queryBills(params) {
+  let queryFunction = queryBillWithCreater
+  if (params['date'] !== undefined) {
+    queryFunction = queryBillWithCreaterAndMonthUrl
+  }
+  queryFunction(params)
+    .then(res => {
+      const data = res.data.bills
       let payout = 0
       let income = 0
       for (const i of data) {
-        const singleDayData = []
         for (const x of i) {
           x['bill_date'] = moment(x['bill_date']).format('YYYY-MM-DD')
           if (x.nature === 1) payout += x.amount
           else income += x.amount
-          singleDayData.push(x)
         }
-        result.push(singleDayData)
       }
       store.dispatch(dispatchTotalIncome(income))
       store.dispatch(dispatchTotalPayout(payout))
       store.dispatch(dispatchUserBillIsLoading(false))
       store.dispatch(dispatchUserBill(data))
-    },
-    // eslint-disable-next-line handle-callback-err
-    function(error) {
-      return
-    }
-  )
+    })
 }
