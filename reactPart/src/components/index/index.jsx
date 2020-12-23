@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { DatePicker } from 'antd'
-// import { LocaleProvider } from 'antd'
+import { Empty } from 'antd'
 import zh_CN from 'antd/es/locale-provider/zh_CN'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 
-import { dispatchTotalIncome, dispatchTotalPayout, dispatchUserBill } from '../common/store/actionCreaters'
+import {
+  dispatchTotalIncome,
+  dispatchTotalPayout,
+  dispatchUserBill,
+  dispatchUserBillIsLoading
+} from '../common/store/actionCreaters'
 import { getBillWithCreaterAndMonthUrl } from '../../dataModule/UrlList'
 import { Model } from '../../dataModule/testBone'
 import store from '../../store'
@@ -42,6 +47,7 @@ class Index extends Component {
   }
 
   searchWithMonth = (dateString) => {
+    store.dispatch(dispatchUserBillIsLoading(true))
     if (dateString.length === 0) return
     const date = dateString
     const creater = this.props.userUuid
@@ -67,6 +73,7 @@ class Index extends Component {
 
         store.dispatch(dispatchTotalIncome(income))
         store.dispatch(dispatchTotalPayout(payout))
+        store.dispatch(dispatchUserBillIsLoading(false))
         store.dispatch(dispatchUserBill(result))
       },
       function(res) {
@@ -106,7 +113,7 @@ class Index extends Component {
 
   render() {
     const { selectedMonth } = this.state
-    const { userBill, totalPayout, totalIncome } = this.props
+    const { userBill, totalPayout, totalIncome, userBillIsLoading } = this.props
     const billListDom = <div>
                           { userBill.map((item) => {
                             let inputOfWeek = 0
@@ -135,7 +142,10 @@ class Index extends Component {
                             return billsDom
                           }) }
                         </div>
-    const neededBillListDom = userBill.length === 0 ? <LoadingUI /> : billListDom
+    let neededBillListDom = userBillIsLoading ? <LoadingUI /> : billListDom
+    if (!userBillIsLoading && userBill.length === 0) {
+      neededBillListDom = <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+    }
 
     return (
       <div className='public-content-style'>
@@ -181,6 +191,7 @@ const mapStateToProps = (state) => {
       userBill: state.get('commonReducer').get('userBill').toJS(),
       totalIncome: state.get('commonReducer').get('totalIncome'),
       totalPayout: state.get('commonReducer').get('totalPayout'),
+      userBillIsLoading: state.get('commonReducer').get('userBillIsLoading'),
       userUuid: state.get('commonReducer').get('userUuid')
     }
 }

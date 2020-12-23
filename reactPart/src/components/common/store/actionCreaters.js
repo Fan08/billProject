@@ -11,6 +11,11 @@ import moment from 'moment'
 
 const model = new Model()
 
+export const dispatchUserBillIsLoading = (data) => ({
+  type: constants.userBillIsLoading,
+  data: fromJS(data)
+})
+
 export const dispatchTotalIncome = (data) => ({
   type: constants.totalIncome,
   data: fromJS(data)
@@ -45,6 +50,7 @@ export const getAllBillTypes = (userUuid) => {
 }
 
 export const getAllBills = (userUuid) => {
+  store.dispatch(dispatchUserBillIsLoading(true))
   model.fetch(
     { creater: userUuid },
     getBillWithCreater,
@@ -66,6 +72,7 @@ export const getAllBills = (userUuid) => {
       }
       store.dispatch(dispatchTotalIncome(income))
       store.dispatch(dispatchTotalPayout(payout))
+      store.dispatch(dispatchUserBillIsLoading(false))
       store.dispatch(dispatchUserBill(data))
     },
     // eslint-disable-next-line handle-callback-err
