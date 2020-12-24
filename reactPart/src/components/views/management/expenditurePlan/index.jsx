@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import zh_CN from 'antd/es/locale-provider/zh_CN'
-import { DatePicker } from 'antd'
+import { DatePicker, Empty } from 'antd'
 
 import { getCurrentMonthOfString } from '../../../../publicFunction'
 import CreateItemModal from './createItemModal'
@@ -48,7 +48,7 @@ class ExpenditurePlan extends Component {
 
   render() {
     const { selectedMonth, createItemModalVisible } = this.state
-    const { userExpenditurePlan, programmeOutput, programmeInput } = this.props
+    const { userExpenditurePlan, programmeOutput, programmeInput, userExpenditurePlanIsLoading } = this.props
     const expenditurePlanDom = userExpenditurePlan.map(item => {
       return <SingleItem
         selectedMonth={selectedMonth}
@@ -56,7 +56,10 @@ class ExpenditurePlan extends Component {
         expenditurePlanItem={item}
       />
     })
-    const neededExpenditurePlanListDom = userExpenditurePlan.length === 0 ? <LoadingUI /> : expenditurePlanDom
+    let neededExpenditurePlanListDom = userExpenditurePlan.length === 0 ? <LoadingUI /> : expenditurePlanDom
+    if (!userExpenditurePlanIsLoading && userExpenditurePlan.length === 0) {
+      neededExpenditurePlanListDom = <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+    }
 
     return (
       <div className='public-content-style'>
@@ -96,6 +99,7 @@ const mapStateToProps = (state) => {
     userExpenditurePlan: state.get('managementReducer').get('userExpenditurePlan').toJS(),
     programmeOutput: state.get('managementReducer').get('programmeOutput'),
     programmeInput: state.get('managementReducer').get('programmeInput'),
+    userExpenditurePlanIsLoading: state.get('managementReducer').get('userExpenditurePlanIsLoading'),
 
     userBillType: state.get('commonReducer').get('userBillType').toJS(),
     userUuid: state.get('commonReducer').get('userUuid')

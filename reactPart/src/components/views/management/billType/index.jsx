@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import SingleItem from './singleItem'
 import CreateBillType from '../../../index/createBillType'
+import { Empty } from 'antd'
 // import { Model } from '../../dataModule/testBone'
 
 class Index extends Component {
@@ -26,12 +27,16 @@ class Index extends Component {
   }
 
   render() {
-    const { userBillType, userUuid } = this.props
+    const { userBillType, userUuid, userBillTypeIsLoading } = this.props
+    let billTypeListDom = userBillType.map((item) =>
+      <SingleItem key={item.uuid} billTypeItem={item} creater={userUuid}/>)
+    if (!userBillTypeIsLoading && userBillType.length === 0) {
+      billTypeListDom = <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+    }
     return (
       <div className='public-content-style'>
         <div className='addBillTypeButton' onClick={this.showAddBillType}>创建新的账单类型</div>
-        { userBillType.map((item) =>
-          <SingleItem key={item.uuid} billTypeItem={item} creater={userUuid}/>) }
+        { billTypeListDom }
         <CreateBillType
           visible={this.state.addBillTypeVisible}
           handleCancel={this.cancelAddBillType}
@@ -44,6 +49,7 @@ class Index extends Component {
 const mapStateToProps = (state) => {
   return {
     userBillType: state.get('commonReducer').get('userBillType').toJS(),
+    userBillTypeIsLoading: state.get('commonReducer').get('userBillTypeIsLoading'),
     userUuid: state.get('commonReducer').get('userUuid')
   }
 }

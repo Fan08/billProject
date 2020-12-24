@@ -4,6 +4,11 @@ import * as constants from './constants'
 import { getExpenditurePlanByCreaterAndMonth } from '../../../../dataModule/UrlList'
 import store from '../../../../store'
 
+const dispatchUserExpenditurePlanIsLoading = (data) => ({
+  type: constants.userExpenditurePlanIsLoading,
+  data: fromJS(data)
+})
+
 const dispatchProgrammeOutput = (data) => ({
   type: constants.programmeOutput,
   data: fromJS(data)
@@ -20,6 +25,7 @@ const dispatchUserExpenditurePlan = (data) => ({
 })
 
 export function getUserExpenditurePlanWithUserAndMonth(creater, month) {
+  store.dispatch(dispatchUserExpenditurePlanIsLoading(true))
   getExpenditurePlanByCreaterAndMonth({ creater, month })
     .then(res => {
       let input = 0.0
@@ -35,5 +41,6 @@ export function getUserExpenditurePlanWithUserAndMonth(creater, month) {
       store.dispatch(dispatchProgrammeInput(input))
       store.dispatch(dispatchProgrammeOutput(output))
       store.dispatch(dispatchUserExpenditurePlan(res.data.expenditurePlans))
+      store.dispatch(dispatchUserExpenditurePlanIsLoading(false))
     })
 }
