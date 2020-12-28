@@ -12,6 +12,11 @@ import store from '../../../store'
 import { fromJS } from 'immutable'
 import moment from 'moment'
 
+const dispatchBillTypeIcon = (data) => ({
+  type: constants.billTypeIcon,
+  data: fromJS(data)
+})
+
 export const dispatchUserBillTypeIsLoading = (data) => ({
   type: constants.userBillTypeIsLoading,
   data: fromJS(data)
@@ -52,8 +57,14 @@ export const getAllBillTypes = (userUuid) => {
   getBillTypesWithCreater({ creater: userUuid })
     .then(res => {
       const data = res.data.billTypes
+      const typeIcon = {}
+      for (const i of data) {
+        typeIcon[i['uuid']] = i['icon']
+        delete i['icon']
+      }
       store.dispatch(dispatchUserBillTypeIsLoading(false))
       store.dispatch(dispatchBillTypes(data))
+      store.dispatch(dispatchBillTypeIcon(typeIcon))
     })
 }
 

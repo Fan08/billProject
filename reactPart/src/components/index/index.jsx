@@ -80,7 +80,7 @@ class Index extends Component {
 
   render() {
     const { selectedMonth } = this.state
-    const { userBill, totalPayout, totalIncome, userBillIsLoading } = this.props
+    const { userBill, totalPayout, totalIncome, userBillIsLoading, billTypeIcon } = this.props
     const billListDom = <div>
                           { userBill.map((item) => {
                             let inputOfWeek = 0
@@ -92,6 +92,7 @@ class Index extends Component {
                               } else {
                                 inputOfWeek += i.amount
                               }
+                              i.icon = billTypeIcon[i.type]
                               const singleDom = <SingleItem
                                 item={i}
                                 selectedMonth={selectedMonth}
@@ -156,6 +157,7 @@ class Index extends Component {
 const mapStateToProps = (state) => {
     return {
       userBill: state.get('commonReducer').get('userBill').toJS(),
+      billTypeIcon: state.get('commonReducer').get('billTypeIcon').toJS(),
       totalIncome: state.get('commonReducer').get('totalIncome'),
       totalPayout: state.get('commonReducer').get('totalPayout'),
       userBillIsLoading: state.get('commonReducer').get('userBillIsLoading'),

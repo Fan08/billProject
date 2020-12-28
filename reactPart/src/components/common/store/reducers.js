@@ -16,6 +16,7 @@ const defaultState = fromJS({
   userBill: [],
   userBillIsLoading: true,
   userBillType: [],
+  billTypeIcon: {},
   userBillTypeIsLoading: true,
   // link key path 三个值需保持一致
   routers: [
@@ -61,6 +62,8 @@ const defaultState = fromJS({
 
 export default (state = defaultState, action) => {
   switch (action.type) {
+    case constants.billTypeIcon:
+      return state.set('billTypeIcon', action.data)
     case constants.userBillTypeIsLoading:
       return state.set('userBillTypeIsLoading', action.data)
     case constants.userBillIsLoading:
