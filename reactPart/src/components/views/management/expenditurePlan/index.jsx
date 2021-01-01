@@ -18,7 +18,7 @@ const { MonthPicker } = DatePicker
 
 class ExpenditurePlan extends Component {
   state = {
-    selectedMonth: getCurrentMonthOfString(1),
+    selectedMonth: getCurrentMonthOfString(),
     createItemModalVisible: false
   }
 

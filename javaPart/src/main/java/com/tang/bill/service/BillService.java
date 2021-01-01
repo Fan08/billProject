@@ -8,6 +8,7 @@ import com.tang.bill.mapper.UserMapper;
 import com.tang.bill.pojo.Bill;
 import com.tang.bill.pojo.User;
 import com.tang.bill.util.CommonFunction;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
+@Api(tags = "账单管理接口")
 public class BillService {
 
   @Autowired
@@ -30,6 +32,14 @@ public class BillService {
   private CommonFunction commonFunction;
 
   @PostMapping("/addBill")
+  @ApiOperation("添加账单接口")
+  @ApiImplicitParams({
+          @ApiImplicitParam(name = "content", value = "账单内容", dataType = "string"),
+          @ApiImplicitParam(name = "amount", value = "账单总额", dataType = "string"),
+          @ApiImplicitParam(name = "type", value = "账单类型", dataType = "string"),
+          @ApiImplicitParam(name = "selectedDate", value = "账单日期", dataType = "string"),
+          @ApiImplicitParam(name = "creater", value = "创建者", dataType = "string")
+  })
   public JSONObject addBill(@RequestBody Map map) throws ParseException {
     JSONObject result = new JSONObject();
 

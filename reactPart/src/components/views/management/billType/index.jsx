@@ -27,9 +27,11 @@ class Index extends Component {
   }
 
   render() {
-    const { userBillType, userUuid, userBillTypeIsLoading } = this.props
-    let billTypeListDom = userBillType.map((item) =>
-      <SingleItem key={item.uuid} billTypeItem={item} creater={userUuid}/>)
+    const { userBillType, userUuid, userBillTypeIsLoading, billTypeIcon } = this.props
+    let billTypeListDom = userBillType.map((item) => {
+      item['icon'] = billTypeIcon[item.uuid]
+      return <SingleItem key={item.uuid} billTypeItem={item} creater={userUuid}/>
+    })
     if (!userBillTypeIsLoading && userBillType.length === 0) {
       billTypeListDom = <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
     }
@@ -48,6 +50,7 @@ class Index extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    billTypeIcon: state.get('commonReducer').get('billTypeIcon').toJS(),
     userBillType: state.get('commonReducer').get('userBillType').toJS(),
     userBillTypeIsLoading: state.get('commonReducer').get('userBillTypeIsLoading'),
     userUuid: state.get('commonReducer').get('userUuid')

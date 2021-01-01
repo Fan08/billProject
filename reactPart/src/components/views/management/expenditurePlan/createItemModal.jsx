@@ -82,7 +82,7 @@ class CreateItemModal extends Component {
   }
 
   render() {
-    const { visible, handleCancel, userBillType } = this.props
+    const { visible, handleCancel, userBillType, billTypeIcon } = this.props
     const { selectedDate, amount, content, selectedTitle, billType } = this.state
     const neededBillType = []
     userBillType.forEach((item) => {
@@ -128,7 +128,7 @@ class CreateItemModal extends Component {
                   onClick={() => this.billTypeChange(item.uuid)}
                   style={{ cursor: 'pointer' }}>
                   <Popover content={item.name} trigger='hover'>
-                    <img alt={''} src={item.icon} />
+                    <img alt={''} src={billTypeIcon[item.uuid]} />
                   </Popover>
                 </div>)
             }) }
@@ -160,6 +160,7 @@ class CreateItemModal extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    billTypeIcon: state.get('commonReducer').get('billTypeIcon').toJS(),
     userBillType: state.get('commonReducer').get('userBillType').toJS(),
     userUuid: state.get('commonReducer').get('userUuid')
   }
