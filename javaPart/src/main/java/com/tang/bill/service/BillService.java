@@ -157,7 +157,9 @@ public class BillService {
     JSONArray result = new JSONArray();
     JSONArray singleDate = new JSONArray();
     Date currDate = null;
+    int flag = 0;
     for (Object bill : bills) {
+      flag += 1;
       JSONObject billJson = (JSONObject) JSONObject.toJSON(bill);
       if (currDate == null) {
         currDate = (Date) billJson.get("bill_date");
@@ -170,6 +172,9 @@ public class BillService {
         result.add(singleDate);
         singleDate = new JSONArray();
         singleDate.add(bill);
+      }
+      if (flag == bills.size()) {
+        result.add(singleDate);
       }
     }
     return result;
