@@ -9,6 +9,7 @@ import CreateItemModal from './createItemModal'
 import { actionCreators } from '../store'
 import SingleItem from './singleItem'
 import LoadingUI from '../../../../dataModule/loading_UI'
+import NextOrLastButtons from '../../../../utilComponents/nextOrLastButtons'
 
 moment.locale('zh-cn')
 
@@ -25,13 +26,21 @@ class ExpenditurePlan extends Component {
   componentDidMount() {
     const { selectedMonth } = this.state
     const { userUuid } = this.props
-    actionCreators.getUserExpenditurePlanWithUserAndMonth(userUuid, selectedMonth)
+    actionCreators.getUserExpenditurePlanWithUserAndMonth(selectedMonth, userUuid)
+  }
+
+  showNextOrLastMonthPlan = (stringYear, stringMoth) => {
+    const { userUuid } = this.props
+    this.setState({
+      selectedMonth: stringYear + '-' + stringMoth
+    })
+    actionCreators.getUserExpenditurePlanWithUserAndMonth(stringYear + '-' + stringMoth, userUuid)
   }
 
   onChange = (date, dateString) => {
     const { userUuid } = this.props
     this.setState({ 'selectedMonth': dateString })
-    actionCreators.getUserExpenditurePlanWithUserAndMonth(userUuid, dateString)
+    actionCreators.getUserExpenditurePlanWithUserAndMonth(dateString, userUuid)
   }
 
   showAddExpenditurePlan = () => {
@@ -81,6 +90,10 @@ class ExpenditurePlan extends Component {
             <span>{programmeOutput} 元</span>
           </div>
         </div>
+        <NextOrLastButtons
+          eventFunction={this.showNextOrLastMonthPlan}
+          selectedMonth={selectedMonth}
+        />
         <div className='addButton' onClick={this.showAddExpenditurePlan}>创建新的财政计划</div>
         { neededExpenditurePlanListDom }
 

@@ -14,7 +14,7 @@ class SingleItem extends Component {
         if (res.data.status !== 200) {
           message.error(res.data.warning)
         } else {
-          actionCreators.getUserExpenditurePlanWithUserAndMonth(userUuid, selectedMonth)
+          actionCreators.getUserExpenditurePlanWithUserAndMonth(selectedMonth, userUuid)
           message.success('删除财政计划成功！')
         }
       })

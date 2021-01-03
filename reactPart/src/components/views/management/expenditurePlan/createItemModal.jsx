@@ -60,7 +60,7 @@ class CreateItemModal extends Component {
     params['expenditure_month'] = singleBill.selectedDate
     addExpenditurePlan(params).then(res => {
       if (res.data.status === 200) {
-        actionCreators.getUserExpenditurePlanWithUserAndMonth(userUuid, selectedMonth)
+        actionCreators.getUserExpenditurePlanWithUserAndMonth(selectedMonth, userUuid)
         message.success('创建财政计划成功！')
       } else {
         message.error('创建财政计划失败！')

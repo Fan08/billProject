@@ -6,6 +6,7 @@ import zh_CN from 'antd/es/locale-provider/zh_CN'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 
+import NextOrLastButtons from '../../utilComponents/nextOrLastButtons'
 import {
   dispatchUserBillIsLoading,
   queryBills
@@ -39,6 +40,14 @@ class Index extends Component {
   }
 
   componentDidMount() {
+  }
+
+  showNextOrLastMonthBills = (stringYear, stringMoth) => {
+    const creater = this.props.userUuid
+    this.setState({
+      selectedMonth: stringYear + '/' + stringMoth
+    })
+    queryBills({ date: stringYear + '/' + stringMoth, creater })
   }
 
   searchWithMonth = (dateString) => {
@@ -136,6 +145,10 @@ class Index extends Component {
           </div>
         </div>
 
+        <NextOrLastButtons
+          eventFunction={this.showNextOrLastMonthBills}
+          selectedMonth={selectedMonth}
+        />
         <div className='addBillTypeButton' onClick={this.showAddBillType}>创建新的账单类型</div>
         <div className='addButton' onClick={this.showModal}>创建新的记账记录</div>
          { neededBillListDom }

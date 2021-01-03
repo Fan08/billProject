@@ -244,3 +244,34 @@
   text-overflow: ellipsis;
   color: rgba(0, 0, 0, .6);
 }
+
+.public-button-style {
+  border-radius: 10px;
+  width: 49%;
+  height: 30px;
+  font-size: .8rem;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+.next-or-last-month {
+  display: flex;
+  justify-content: space-between;
+  width: @publicWidth;
+  margin: 16px auto 0;
+  .last-month {
+    &:extend(.public-button-style);
+    line-height: 30px;
+    background-color: @publicButtonColor;
+    color: #fff;
+
+  }
+  .next-month {
+    &:extend(.public-button-style);
+    line-height: 22px;
+    border-radius: 10px;
+    border: 4px solid @publicButtonColor;
+    color: @publicButtonColor;
+ }
+}

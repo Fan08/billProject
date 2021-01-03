@@ -24,7 +24,7 @@ const dispatchUserExpenditurePlan = (data) => ({
   data: fromJS(data)
 })
 
-export function getUserExpenditurePlanWithUserAndMonth(creater, month) {
+export function getUserExpenditurePlanWithUserAndMonth(month, creater) {
   store.dispatch(dispatchUserExpenditurePlanIsLoading(true))
   getExpenditurePlanByCreaterAndMonth({ creater, month })
     .then(res => {
