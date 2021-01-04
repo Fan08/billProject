@@ -10,6 +10,7 @@
 import request from './request'
 
 export const originalUrl = 'http://localhost:8082'
+// export const originalUrl = 'http://122.51.80.50:8082'
 
 export const billTypes = '/getBillTypesWithCreater'
 export const addBillTypeUrl = '/addBillType'

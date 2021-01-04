@@ -16,6 +16,7 @@ import SingleItem from './singleItem'
 import LoadingUI from '../../dataModule/loading_UI'
 import ItemOfWeek from './itemOfWeek'
 import { getCurrentMonthOfString } from '../../publicFunction'
+import { actionCreators as commonAction } from '../common/store'
 
 import CreateBillType from './createBillType'
 import CreateItemModal from './createItemModal'
@@ -40,6 +41,8 @@ class Index extends Component {
   }
 
   componentDidMount() {
+    const creater = this.props.userUuid
+    commonAction.getAllBills(creater)
   }
 
   showNextOrLastMonthBills = (stringYear, stringMoth) => {

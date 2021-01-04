@@ -34,7 +34,6 @@ class App extends Component {
       setCookie('mspa_SiderCollapsed', false)
     }
     const userUuid = store.getState().get('commonReducer').get('userUuid')
-    commonAction.getAllBills(userUuid)
     commonAction.getAllBillTypes(userUuid)
   }
 

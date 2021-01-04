@@ -12,6 +12,7 @@ const defaultState = fromJS({
   totalIncome: 0,
   totalPayout: 0,
   userUuid: 'c6825ed3afa9411694b62e61119544ed',
+  // userUuid: '840280fe375f40a7be80f099b6919bf6',
   routersReady: false,
   userBill: [],
   userBillIsLoading: true,
