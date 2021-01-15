@@ -7,6 +7,7 @@ import * as constants from './constants'
 import BillType from '../../views/management/billType'
 import ExpenditurePlan from '../../views/management/expenditurePlan'
 import BillStatistic from '../../views/statistic/billStatistic'
+import Test from '../../views/test'
 
 const defaultState = fromJS({
   totalIncome: 0,
@@ -57,6 +58,12 @@ const defaultState = fromJS({
         key: '/app/bill_statistic',
         child: []
       }]
+    }, {
+      routerDom: <Route key={'/app/test'} exact path={'/app/test'} component={ (props) => <Test { ...props }/> } />,
+      link: '/app/test',
+      title: 'test',
+      key: '/app/test',
+      child: []
     }
   ]
 })

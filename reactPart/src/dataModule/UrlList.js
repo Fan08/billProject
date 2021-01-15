@@ -68,3 +68,11 @@ export function deleteExpenditurePlanWithUuid(data) {
     data
   })
 }
+
+export function getPPTElements(data) {
+  return request({
+    url: 'http://localhost:8001/ReadPPTX',
+    method: 'post',
+    data
+  })
+}

@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 
 import { addBill } from '../../dataModule/UrlList'
 import { Model } from '../../dataModule/testBone'
+import { judgeWhetherEnter } from '../../utilComponents/utils'
 
 const model = new Model()
 
@@ -45,6 +46,7 @@ class CreateItemModal extends Component {
 
   handleOk = () => {
     const { selectedMonth, searchWithMonth } = this.props
+    const me = this
     const singleBill = this.state
     for (const i in singleBill) {
       if (singleBill[i] === null) {
@@ -53,7 +55,6 @@ class CreateItemModal extends Component {
       }
     }
     this.props.handleCancel()
-    this.initSate()
     let params = JSON.stringify(singleBill)
     params = JSON.parse(params)
     params['amount'] = parseFloat(params['amount']).toFixed(2)
@@ -65,11 +66,10 @@ class CreateItemModal extends Component {
       'post',
       function(response) {
         searchWithMonth(selectedMonth.split('-').join('/'))
-        return
+        me.initSate()
       },
       // eslint-disable-next-line handle-callback-err
       function(error) {
-        return
       }
     )
   }
@@ -80,6 +80,12 @@ class CreateItemModal extends Component {
 
   dateChange = (date, dateString) => {
     this.setState({ selectedDate: dateString })
+  }
+
+  enterDown = (e) => {
+    const whetherEnter = judgeWhetherEnter(e.keyCode)
+    if (whetherEnter === false) return
+    this.handleOk()
   }
 
   render() {
@@ -105,6 +111,7 @@ class CreateItemModal extends Component {
           this.initSate()
         }}
         className={'create-item-modal'}
+        destroyOnClose
       >
         <div className={'choose-bill-type'}>
           <div className={'choose-bill-type-title'}>
@@ -139,11 +146,24 @@ class CreateItemModal extends Component {
         </div>
         <div className={'label-span'}>
           <span className={'span'}>账单内容：</span>
-          <Input className={'public-input-item'} onChange={(e) => { this.setState({ content: e.target.value }) }} value={content}/>
+          <Input
+            className={'public-input-item'}
+            onKeyDown={this.enterDown}
+            onChange={(e) => { this.setState({ content: e.target.value }) }}
+            value={content}
+          />
         </div>
         <div className={'label-span'}>
           <span className={'span'}>账单金额：</span>
-          <InputNumber style={{ width: '50%' }} onChange={(e) => { this.setState({ amount: e }) }} value={amount}/>
+          <InputNumber
+            id={'amount-input'}
+            style={{ width: '50%' }}
+            onKeyDown={this.enterDown}
+            onChange={(e) => {
+              this.setState({ amount: e })
+            }}
+            value={amount}
+          />
         </div>
         <div className={'label-span'}>
           <span className={'span'}>账单日期：</span>
