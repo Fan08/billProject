@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Input, InputNumber, DatePicker, message, Popover } from 'antd'
+import { DatePicker, Input, InputNumber, message, Modal, Popover } from 'antd'
 import zh_CN from 'antd/es/locale-provider/zh_CN'
 // import moment from 'moment'
 import 'moment/locale/zh-cn'
@@ -30,6 +30,48 @@ class CreateItemModal extends Component {
 
   componentDidMount() {
     this.initSate()
+  }
+
+  getMaxDay(year, month) {
+    const current = new Date(year, month, 1)
+    return new Date(current.getTime() - 1000 * 60 * 60 * 24).getDate()
+  }
+
+  changeDateNextOrLast(changeNum) {
+    const { selectedDate } = this.state
+    const dateList = selectedDate.split('/')
+    let year = parseInt(dateList[0])
+    let month = parseInt(dateList[1])
+    const day = parseInt(dateList[2])
+    let newDay = 1
+    if (changeNum === -1) {
+      if (day === 1) {
+        if (month === 1) {
+          month = 12
+          year -= 1
+          newDay = this.getMaxDay(year, month)
+        } else {
+          month -= 1
+          newDay = this.getMaxDay(year, month)
+        }
+      } else {
+        newDay = day - 1
+      }
+    } else {
+      if (month === 12 && day === 31) {
+        year += 1
+      }
+      if (day + changeNum > this.getMaxDay(year, month)) {
+        newDay = 1
+        month += 1
+      } else {
+        newDay = day + 1
+      }
+      if (month === 13) month = 1
+    }
+    this.setState({
+      selectedDate: year + '/' + month + '/' + newDay
+    })
   }
 
   initSate = () => {
@@ -142,6 +184,10 @@ class CreateItemModal extends Component {
                   </Popover>
                 </div>)
             }) }
+          </div>
+          <div className={'choose-bill-type-title'} style={{ marginBottom: 10 }}>
+            <div className={'single-title selected-single-title'} onClick={() => this.changeDateNextOrLast(-1)}>上一天</div>
+            <div className={'single-title'} onClick={() => this.changeDateNextOrLast(1)}>下一天</div>
           </div>
         </div>
         <div className={'label-span'}>
