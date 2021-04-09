@@ -55,7 +55,7 @@ const defaultState = fromJS({
       child: [{
         routerDom: <Route key={'/app/bill_statistic'} exact path={'/app/bill_statistic'} component={ (props) => <BillStatistic { ...props }/> } />,
         link: '/app/bill_statistic',
-        title: '基于时间的账单统计',
+        title: '基于类型的账单统计',
         key: '/app/bill_statistic',
         child: []
       }]
