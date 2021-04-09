@@ -52,6 +52,11 @@ export const dispatchBillTypes = (data) => ({
   data: fromJS(data)
 })
 
+export const dispatchBillsWithType = (data) => ({
+  type: constants.statisticWithType,
+  data: fromJS(data)
+})
+
 export const getAllBillTypes = (userUuid) => {
   store.dispatch(dispatchUserBillTypeIsLoading(true))
   getBillTypesWithCreater({ creater: userUuid })
@@ -78,18 +83,28 @@ export function queryBills(params) {
   if (params['date'] !== undefined) {
     queryFunction = queryBillWithCreaterAndMonthUrl
   }
+  // params 格式：{date: "2021/05", creater: "c6825ed3afa9411694b62e61119544ed"}
   queryFunction(params)
     .then(res => {
       const data = res.data.bills
       let payout = 0
       let income = 0
+      const contents = {}
       for (const i of data) {
         for (const x of i) {
+          if (contents[x['name']] === undefined) {
+            contents[x['name']] = [x]
+          } else {
+            const rawData = [...contents[x['name']]]
+            rawData.push(x)
+            contents[x['name']] = rawData
+          }
           x['bill_date'] = moment(x['bill_date']).format('YYYY-MM-DD')
           if (x.nature === 1) payout += x.amount
           else income += x.amount
         }
       }
+      store.dispatch(dispatchBillsWithType(contents))
       store.dispatch(dispatchTotalIncome(income))
       store.dispatch(dispatchTotalPayout(payout))
       store.dispatch(dispatchUserBillIsLoading(false))

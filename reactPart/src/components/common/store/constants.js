@@ -7,3 +7,5 @@ export const totalPayout = 'commonReducer/totalPayout'
 export const userBillIsLoading = 'commonReducer/userBillIsLoading'
 export const userBillTypeIsLoading = 'commonReducer/userBillTypeIsLoading'
 export const billTypeIcon = 'commonReducer/billTypeIcon'
+export const statisticWithType = 'commonReducer/statisticWithType'
+

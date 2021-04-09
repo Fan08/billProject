@@ -113,10 +113,6 @@
   }
 }
 
-.single-item:first-child {
-  margin-top: 40px;
-}
-
 .income-item {
   background-color: #00BFFF;
   border: none;
@@ -275,7 +271,7 @@
     line-height: 30px;
     background-color: @publicButtonColor;
     color: #fff;
-
+    user-select: none;
   }
   .next-month {
     &:extend(.public-button-style);
@@ -283,5 +279,11 @@
     border-radius: 10px;
     border: 4px solid @publicButtonColor;
     color: @publicButtonColor;
- }
+    user-select: none;
+  }
+}
+
+.single-item-in-bill-statistic {
+  width: 100%;
+  margin: 4px 0;
 }

@@ -31,8 +31,13 @@ class SingleItem extends Component {
   }
 
   render() {
-    const { item } = this.props
-    const itemClassName = item.nature === 1 ? 'single-item' : 'single-item income-item'
+    const { item, classnameFromFather } = this.props
+    let additionalStyles = ''
+    if (classnameFromFather !== undefined) {
+      additionalStyles = classnameFromFather
+    }
+    let itemClassName = item.nature === 1 ? 'single-item ' : 'single-item income-item '
+    itemClassName = itemClassName + additionalStyles
 
     return (
       <div className={itemClassName}>

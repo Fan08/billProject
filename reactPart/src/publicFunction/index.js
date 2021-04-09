@@ -95,7 +95,7 @@ export function formDate(dateForm) {
   }
 }
 
-export function getCurrentMonthOfString(editMonth = 0) {
+export function getCurrentMonthOfString(editMonth = 0, initialCut = '-') {
   const now = new Date()
   let month = now.getMonth() + 1 + editMonth
   let year = now.getFullYear()
@@ -103,5 +103,5 @@ export function getCurrentMonthOfString(editMonth = 0) {
     month = 1
     year += 1
   }
-  return year + '-' + month
+  return year + initialCut + month
 }

@@ -10,6 +10,7 @@ import BillStatistic from '../../views/statistic/billStatistic'
 import Test from '../../views/test'
 
 const defaultState = fromJS({
+  statisticWithType: null,
   totalIncome: 0,
   totalPayout: 0,
   userUuid: 'c6825ed3afa9411694b62e61119544ed',
@@ -70,6 +71,8 @@ const defaultState = fromJS({
 
 export default (state = defaultState, action) => {
   switch (action.type) {
+    case constants.statisticWithType:
+      return state.set('statisticWithType', action.data)
     case constants.billTypeIcon:
       return state.set('billTypeIcon', action.data)
     case constants.userBillTypeIsLoading:
