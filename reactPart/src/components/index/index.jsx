@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { DatePicker } from 'antd'
-import { Empty } from 'antd'
+import { Empty, BackTop } from 'antd'
 import zh_CN from 'antd/es/locale-provider/zh_CN'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
@@ -15,6 +15,7 @@ import store from '../../store'
 import SingleItem from './singleItem'
 import LoadingUI from '../../dataModule/loading_UI'
 import ItemOfWeek from './itemOfWeek'
+import ShowComponentAtNeededHeight from '../../publicComponents/showComponentAtNeededHeight'
 import { getCurrentMonthOfString } from '../../publicFunction'
 import { actionCreators as commonAction } from '../common/store'
 
@@ -126,9 +127,12 @@ class Index extends Component {
     if (!userBillIsLoading && userBill.length === 0) {
       neededBillListDom = <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
     }
+    const needDom = <div className={'fixed-adding-bill-button'} onClick={this.showModal}>add</div>
 
     return (
       <div className='public-content-style'>
+        <ShowComponentAtNeededHeight needDom={needDom}/>
+        <BackTop />
         <div className='title-block'>
           <div className='search-block'>
             <span>选择月份：</span>
@@ -154,7 +158,7 @@ class Index extends Component {
         />
         <div className='addBillTypeButton' onClick={this.showAddBillType}>创建新的账单类型</div>
         <div className='addButton' onClick={this.showModal}>创建新的记账记录</div>
-         { neededBillListDom }
+          { neededBillListDom }
         <CreateItemModal
           selectedMonth={selectedMonth}
           searchWithMonth={this.searchWithMonth}

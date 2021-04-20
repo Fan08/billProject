@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import zh_CN from 'antd/es/locale-provider/zh_CN'
-import { DatePicker, Collapse } from 'antd'
+import { DatePicker, Collapse, BackTop } from 'antd'
 // import * as echarts from 'echarts'
 
 import { getCurrentMonthOfString } from '../../../../publicFunction'
@@ -62,7 +62,13 @@ class BillStatistic extends Component {
       const billList = newStatisticWithType[item].map(itemBill => {
           itemBill.icon = billTypeIcon[itemBill.type]
           totalNum += itemBill.amount
-          return <SingleItem item={itemBill} classnameFromFather={'single-item-in-bill-statistic'} key={itemBill.uuid}/>
+          return <SingleItem
+            searchWithMonth={this.getNeededBills}
+            selectedMonth={this.state.selectedMonth}
+            item={itemBill}
+            classnameFromFather={'single-item-in-bill-statistic'}
+            key={itemBill.uuid}
+          />
         })
       const outsidePanel = <Panel header={item + ' - 总金额：' + totalNum.toFixed(2) + ' 元'} key={index.toString()}>
         { billList }
@@ -96,6 +102,7 @@ class BillStatistic extends Component {
     // myChart && myChart.setOption(option)
     return (
       <div className='public-content-style'>
+        <BackTop />
         <div className='title-block'>
           <div className='search-block'>
             <span>选择月份：</span>
