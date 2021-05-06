@@ -7,7 +7,8 @@ import * as constants from './constants'
 import BillType from '../../views/management/billType'
 import ExpenditurePlan from '../../views/management/expenditurePlan'
 import BillStatistic from '../../views/statistic/billStatistic'
-import Test from '../../views/test'
+// import Test from '../../views/test'
+import { ViewDom, EditDom } from '../../../editViews'
 
 const defaultState = fromJS({
   statisticWithType: null,
@@ -60,11 +61,23 @@ const defaultState = fromJS({
         child: []
       }]
     }, {
-      routerDom: <Route key={'/app/test'} exact path={'/app/test'} component={ (props) => <Test { ...props }/> } />,
-      link: '/app/test',
-      title: 'test',
-      key: '/app/test',
-      child: []
+      routerDom: null,
+      link: '',
+      title: '测试页面编辑',
+      key: 'app4',
+      child: [{
+        routerDom: <Route key={'/app/test/ViewDom'} exact path={'/app/test/ViewDom'} component={ (props) => <ViewDom { ...props }/> } />,
+        link: '/app/test/ViewDom',
+        title: '页面显示',
+        key: '/app/test/ViewDom',
+        child: []
+      }, {
+        routerDom: <Route key={'/app/test/EditDom'} exact path={'/app/test/EditDom'} component={ (props) => <EditDom { ...props }/> } />,
+        link: '/app/test/EditDom',
+        title: '页面编辑',
+        key: '/app/test/EditDom',
+        child: []
+      }]
     }
   ]
 })
